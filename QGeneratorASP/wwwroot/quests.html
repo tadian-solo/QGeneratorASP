@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Квесты</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
+   
+
+</head>
+<body>
+    
+    <div id="wrapper">
+        <header></header>
+        <nav>
+            <ul class="top-menu">
+
+                <li ><a href="/index.html">Главная</a></li>
+                <li class="active">Квесты</li>
+                <li><a href="/riddles.html">Загадки</a></li>
+                <li><a href="/myquests.html">Мои квесты</a></li>
+
+            </ul>
+
+        </nav>
+        <div id="heading">
+            <h1>Квесты</h1>
+
+        </div>
+        <div>
+            <h3>Создание нового квеста</h3>
+            <form>
+                <!-- <label for="createStatus"> Status:</label>
+            <input id="createStatus" type="text" />-->
+
+                <label for="createThematics">Тематика:</label>
+                <input id="createThematics" type="text" />
+
+                <!--<label for="createDate">Date:</label>-->
+                <!--<input id="createDate" type="text" />-->
+
+                <label for="createLevel"> Уровень:</label>
+                <select name="createLevel" size="1" id="createLevelId"></select>
+                <!--<label for="createLevel">Level:</label>
+            <input id="createLevel" type="text" />-->
+
+                <label for="createUser">Автор:</label>
+                <input id="createUser" type="text" />
+
+                <!-- <label for="createRiddle">Riddle:</label>-->
+                <!--  <input id="createRiddle" type="text" />-->
+
+                <button onclick="createQuest(); return false;">Добавить</button>
+            </form>
+        </div>
+
+        <div>
+            <h3>Добавление загадки в квест</h3>
+            <form>
+
+                <label for="id_quest">Квест:</label>
+                <input id="id_quest" type="text" />
+
+                <label for="id_riddle">Загадка:</label>
+                <input id="id_riddle" type="text" />
+
+
+
+                <button onclick="createRiddleInQuest(); return false;">Добавить</button>
+            </form>
+        </div>
+
+        <div id="editDiv" hidden>
+            <h3>Редактирование</h3>
+            <form class="my-form">
+                <input type="hidden" id="edit-id">
+
+                <input id="edit-status" type="text" />
+
+                <input id="edit-thematics" type="text" />
+
+
+                <input id="edit-date" type="text" />
+
+
+                <select name="edit-Level" size="1" id="editLevelId"></select>
+
+
+                <input id="edit-user" type="text" />
+
+                <button onclick="updateQuest(); return false;">Сохранить</button>
+                <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
+            </form>
+        </div>
+        <h3>Список квестов:</h3>
+        <div>
+            <div id="questsDiv"></div>
+        </div>
+        
+        <script src="js/scriptQuest.js"></script>
+
+    </div>
+</body>
+</html>

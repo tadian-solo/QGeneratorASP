@@ -9,7 +9,7 @@ using QGeneratorASP.Models;
 
 namespace QGeneratorASP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class QuestController : ControllerBase
     {
@@ -36,7 +36,16 @@ namespace QGeneratorASP.Controllers
         {
             return _context.Quest.Include(l => l.Level_of_complexity)
                 .Include(u=>u.User)
-                .Include(r=>r.QuestRiddle).ThenInclude(r=>r.Riddle);
+                .Include(r=>r.QuestRiddle)
+                      .ThenInclude(r=>r.Riddle).ThenInclude(a => a.Answer)
+                      .ThenInclude(r => r.Riddle).ThenInclude(a => a.Level_of_complexity)
+                      .ThenInclude(r => r.Riddle).ThenInclude(l => l.Type_of_question)
+                      .ThenInclude(r => r.Riddle).ThenInclude(u => u.User);
+        }
+ 
+        public IEnumerable<Level_of_complexity> GetLevels()
+        {
+            return _context.Level_of_complexity;
         }
 
         [HttpGet("{id}")]
@@ -58,18 +67,22 @@ namespace QGeneratorASP.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetQuest", new { id = q.Id_quest }, q);
         }
+        
+        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Quest q)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.Quest.Find(id);
             if (item == null) { return NotFound(); }
-            item.Status = q.Status;
+           
             item.Number_of_questions = q.Number_of_questions;
             item.Date = q.Date;
             item.Thematics = q.Thematics;
-            item.Level_of_complexity = q.Level_of_complexity;
-            item.User = q.User;
+            item.Level_of_complexity = _context.Level_of_complexity.Find(q.Id_level_Fk);
+            item.User = _context.User.Find(q.Id_autor_Fk);//
+            item.Status = item.User.AccessLevel;
             item.QuestRiddle = q.QuestRiddle;
             _context.Quest.Update(item);
             await _context.SaveChangesAsync();

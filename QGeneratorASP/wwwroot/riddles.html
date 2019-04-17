@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Загадки</title>
+    <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="wrapper">
+        <header></header>
+        <nav>
+            <ul class="top-menu">
+
+                <li><a href="/index.html">Главная</a></li>
+                <li><a href="/quests.html">Квесты</a></li>
+                <li class="active">Загадки</li>
+                <li><a href="/myquests.html">Мои квесты</a></li>
+
+            </ul>
+
+        </nav>
+        <div id="heading">
+            <h1>Загадки</h1>
+
+        </div>
+        <div>
+            <h3>Создание новой загадки</h3>
+            <form>
+                <!-- <label for="createStatus"> Status:</label>
+            <input id="createStatus" type="text" />-->
+
+                <label for="createText">Текст загадки:</label>
+                <input id="createText" type="text" />
+
+                <label for="createDescription">Описание:</label>
+                <input id="createDescription" type="text" />
+
+                <!--<label for="createDate">Date:</label>-->
+                <!--<input id="createDate" type="text" />-->
+
+                <label for="createLevel">Уровень:</label>
+                <select name="createLevel" size="1" id="createLevelId"></select>
+
+                <label for="createType">Тип:</label>
+                <select name="createType" size="1" id="createTypeId"></select>
+
+                <label for="createAnswer">Ответ:</label>
+                <select name="createAnswer" size="1" id="createAnswerId"></select>
+
+
+
+                <label for="createUser">Автор:</label>
+                <input id="createUser" type="text" />
+
+                <!-- <label for="createRiddle">Riddle:</label>-->
+                <!--  <input id="createRiddle" type="text" />-->
+
+                <button onclick="createRiddle(); return false;">Добавить</button>
+            </form>
+        </div>
+
+
+
+        <div id="editDiv" hidden>
+            <h3>Редактирование</h3>
+            <form class="my-form">
+                <input type="hidden" id="edit-id">
+
+
+                <input id="edit-status" type="text" />
+                <input id="edit-text" type="text" />
+
+                <input id="edit-description" type="text" />
+
+
+
+                <select name="edit-level" size="1" id="editLevelId"></select>
+                <select name="edit-type" size="1" id="editTypeId"></select>
+                <select name="edit-answer" size="1" id="editAnswerId"></select>
+
+
+                <input id="edit-user" type="text" />
+
+                <button onclick="updateRiddle(); return false;">Сохранить</button>
+                <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
+            </form>
+        </div>
+
+        <h3>Список загадок</h3>
+        <div>
+            <div id="riddlesDiv"></div>
+        </div>
+
+        <script src="js/scripts.js"></script>
+    </div>
+</body>
+</html>

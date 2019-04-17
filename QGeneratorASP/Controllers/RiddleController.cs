@@ -9,7 +9,7 @@ using QGeneratorASP.Models;
 
 namespace QGeneratorASP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RiddleController : ControllerBase
     {
@@ -66,7 +66,18 @@ namespace QGeneratorASP.Controllers
                 .Include(u=>u.User)
                 .Include(q=>q.QuestRiddle).ThenInclude(q=>q.Quest);
         }
-
+        public IEnumerable<Level_of_complexity> GetLevels()
+        {
+            return _context.Level_of_complexity;
+        }
+        public IEnumerable<Type_of_question> GetTypes()
+        {
+            return _context.Type_of_question;
+        }
+        public IEnumerable<Answer> GetAnswers()
+        {
+            return _context.Answer;
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRiddle([FromRoute] int id)
         {
@@ -94,11 +105,12 @@ namespace QGeneratorASP.Controllers
             if (item == null) { return NotFound(); }
             item.Text = q.Text;
             item.Description = q.Description;
-            item.Status = q.Status;
-            item.Answer = q.Answer;
-            item.Level_of_complexity = q.Level_of_complexity;
-            item.Type_of_question = q.Type_of_question;
-            item.User = q.User;
+           
+            item.Answer = _context.Answer.Find(q.Id_Answer_FK);
+            item.Level_of_complexity = _context.Level_of_complexity.Find(q.Id_Level_FK);
+            item.Type_of_question = _context.Type_of_question.Find(q.Id_Type_FK);
+            item.User = _context.User.Find(q.Id_Autor_FK);
+            item.Status = item.User.AccessLevel;
             item.QuestRiddle = q.QuestRiddle;
             _context.Riddle.Update(item);
             await _context.SaveChangesAsync();
