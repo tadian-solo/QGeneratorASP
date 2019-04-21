@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,14 @@ namespace QGeneratorASP
         {
             // services.AddDbContext<GQ>(opt => opt.UseInMemoryDatabase("GQ"));
             var connection = Configuration.GetConnectionString("DefaultConnection");
+
+            /* services.AddIdentity<User, IdentityRole>()
+                 .AddEntityFrameworkStores<GQ>();*/
+
+            services.AddIdentity<User, IdentityRole<int>>()
+       .AddEntityFrameworkStores<GQ>()
+       .AddDefaultTokenProviders();
+
             services.AddDbContext<GQ>(options => options.UseSqlServer(connection));
 
             services.AddMvc().AddJsonOptions(options => {
@@ -40,6 +49,7 @@ namespace QGeneratorASP
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); } else { app.UseHsts(); }
+            app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseHttpsRedirection();

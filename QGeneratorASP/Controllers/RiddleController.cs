@@ -27,7 +27,7 @@ namespace QGeneratorASP.Controllers
                         Status = true,
                         Date = DateTime.Now,
                         Thematics = "no",
-                        User = new User { Name = "moderator", Password = "123123" },
+                      //  User = new User { UserName = "moderator", PasswordHash = "123123" },
                         Level_of_complexity = new Level_of_complexity { Name_level = "hard" }
 
                     };
@@ -43,7 +43,7 @@ namespace QGeneratorASP.Controllers
                     Answer = new Answer { Object = "table" },
                     Level_of_complexity = new Level_of_complexity {  Name_level = "hard" },
                     Type_of_question = new Type_of_question {  Name = "212" },
-                    User=new User { Name="admin", Password="123123"}
+                   // User=new User { Name="admin", Password="123123"}
                 };
                 _context.Riddle.Add(r1);
                 _context.SaveChanges();

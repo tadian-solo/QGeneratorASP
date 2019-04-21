@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>Квесты</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Квесты</title>
+  
+ <!--   <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
    
 
@@ -16,7 +16,7 @@
         <nav>
             <ul class="top-menu">
 
-                <li ><a href="/index.html">Главная</a></li>
+                <li><a href="/index.html">Главная</a></li>
                 <li class="active">Квесты</li>
                 <li><a href="/riddles.html">Загадки</a></li>
                 <li><a href="/myquests.html">Мои квесты</a></li>
@@ -28,6 +28,28 @@
             <h1>Квесты</h1>
 
         </div>
+        <h3>Вход для зарегистрированных пользователей</h3>
+        <form>
+
+            <div>
+                <label for="Login">Login: </label><br />
+                <input type="text" id="Login" name="Login">
+            </div>
+            <div>
+                <label for="Password">Пароль: </label><br />
+                <input type="password" id="Password" name="Password">
+            </div>
+            <div class="msgClass">
+                <div id="msgAuth"></div>
+                <div id="msg"></div>
+                <ul id="formError"></ul>
+            </div>
+        </form>
+        <button id="loginBtn">Войти</button>
+        <button id="logoffBtn">Выйти</button>
+        <p>
+            <a href="register.html">Регистрация нового пользователя</a>
+        </p>
         <div>
             <h3>Создание нового квеста</h3>
             <form>
@@ -97,8 +119,8 @@
         <div>
             <div id="questsDiv"></div>
         </div>
-        
-        <script src="js/scriptQuest.js"></script>
+
+        <script src="js/scriptQuest.js" charset="utf-8"></script>
 
     </div>
 </body>

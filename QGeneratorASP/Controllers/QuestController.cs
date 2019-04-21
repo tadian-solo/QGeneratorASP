@@ -19,13 +19,13 @@ namespace QGeneratorASP.Controllers
             _context = context;
             if (_context.Quest.Count() == 0)
             {
-                
+
                 _context.Quest.Add(new Quest
                 {
                     Status = true,
                     Date = DateTime.Now,
                     Thematics = "no",
-                    User = new User { Name = "moderator", Password = "123123" },
+                    User = new User { UserName = "moderator", PasswordHash = "123123", AccessLevel = true },
                     Level_of_complexity = new Level_of_complexity { Name_level = "hard" }
                 });
                 _context.SaveChanges();

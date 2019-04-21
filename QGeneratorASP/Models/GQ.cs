@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class GQ : DbContext
+    public class GQ : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public GQ(DbContextOptions<GQ> options)
             : base(options)
@@ -20,6 +22,7 @@ namespace QGeneratorASP.Models
         public virtual DbSet<User> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.HasKey(e => e.Id_answer);
@@ -63,7 +66,7 @@ namespace QGeneratorASP.Models
 
                 entity.Property(e => e.Number_of_questions).HasColumnName("Number_of_questions");
 
-                entity.Property(e => e.Thematics).HasColumnType("text");
+                entity.Property(e => e.Thematics).HasColumnType("nvarchar(1000)");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Quest)
@@ -160,21 +163,21 @@ namespace QGeneratorASP.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasKey(e => e.Id_user);
+               // entity.HasKey(e => e.Id_user);
 
-                entity.Property(e => e.Id_user).HasColumnName("Id_user");
+              //  entity.Property(e => e.Id_user).HasColumnName("Id_user");
 
                 entity.Property(e => e.AccessLevel).HasColumnName("Access_level");
 
-                entity.Property(e => e.Name)
+                /*entity.Property(e => e.UserName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.Password)
+                    */
+               /* entity.Property(e => e.PasswordHash)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false);*/
             });
         }
 

@@ -49,7 +49,7 @@ namespace QGeneratorASP.Data
             {
                 context.Type_of_question.Add(ls);
             }
-            context.User.Add(new User { Name = "admin", Password = "123", AccessLevel = true });
+            context.User.Add(new User { UserName = "admin", PasswordHash = "123", AccessLevel = true });
             context.SaveChanges();
             
             var quests = new Quest[]
