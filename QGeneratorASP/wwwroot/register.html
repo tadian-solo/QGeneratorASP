@@ -8,35 +8,75 @@
     <style>
         .msg-error {
             color: red;
+            background-color: rgba(255, 255, 255, 0.75);
+           
         }
 
-        button {
-            margin-top: 5px;
+        body {
+            margin: 0;
+            background-color: #00012e !important;
+            background: url(/css/images/fonReg.jpg) no-repeat;
+            background-size: cover;
         }
+        button{
+            margin-left: 30%;
+            margin-top:5%;
+        }
+        label {
+            color: #00012e;
+        }
+        #logoffBtn {
+            background: transparent;
+            color: #00012e;
+            margin-left: 0px;
+        }
+       
+       
     </style>
 </head>
 <body>
     <a href="Index.html">Основная страница</a>
-    <h2>Регистрация нового пользователя</h2>
 
-    <form id="registry">
-        <label for="login">Логин: </label>
-        <br />
-        <input type="text" id="login" name="login">
-        <br />
-        <label for="password">Пароль: </label>
-        <br />
-        <input type="password" id="password" name="password">
-        <br />
-        <label for="passwordConfirm">Подтверждение пароля: </label>
-        <br />
-        <input type="password" id="passwordConfirm" name="passwordConfirm">
-    </form>
-    <button id="registerBtn">Регистрация</button>
-    <div class="msg-error">
-        <div id="msg"></div>
-        <ul id="formError"></ul>
+    <div class="formR" hidden id="formR">
+        <form id="registry">
+            <label for="login">Логин: </label>
+            <br />
+            <input type="text" id="login" name="login">
+            <br />
+            <label for="password">Пароль: </label>
+            <br />
+            <input type="password" id="password" name="password">
+            <br />
+            <label for="passwordConfirm">Подтверждение пароля: </label>
+            <br />
+            <input type="password" id="passwordConfirm" name="passwordConfirm">
+        </form>
+        <button id="registerBtn">Регистрация</button>
+        <!--<div class="msg-error">
+            <div id="msg"></div>
+            <ul id="formError"></ul>
+        </div>-->
     </div>
-    <script src="js/register.js"></script>
+    <div class="formE" id="formE">
+        <form id="entery">
+            <label for="myLogin">Логин: </label>
+            <br />
+            <input type="text" id="myLogin" name="myLogin">
+            <br />
+            <label for="myPassword">Пароль: </label>
+            <br />
+            <input type="password" id="myPassword" name="myPassword">
+            <br />
+        </form>
+        <button id="loginBtn">Войти</button>
+        <button id="logoffBtn">Регистрация</button>
+    </div>
+    <p>
+        <div class="msg-error">
+            <div id="msg"></div>
+            <ul id="formError"></ul>
+        </div>
+    </p>
+        <script src="js/register.js"></script>
 </body>
 </html>

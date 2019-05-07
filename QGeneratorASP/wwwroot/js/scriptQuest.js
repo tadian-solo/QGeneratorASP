@@ -4,11 +4,22 @@ let items = null;
 
 document.addEventListener("DOMContentLoaded", function (event) {
     getQuests();
+    getCurrentUser();
 });
 document.addEventListener("DOMContentLoaded", function (event) {
     getLevels("createLevelId");
 });
-
+function getCurrentUser() {
+    let request = new XMLHttpRequest();
+    request.open("POST", "/api/Account/isAuthenticated", true);
+    request.onload = function () {
+        let myObj = "";
+        myObj = request.responseText !== "" ?
+            JSON.parse(request.responseText) : {};
+        document.getElementById("msg").innerHTML = myObj.message;
+    };
+    request.send();
+}
 function getCount(data) {
     const el = document.querySelector("#counter");
     let name = "Количество квестов:";
@@ -183,7 +194,18 @@ function deleteQuest(id) {
     let request = new XMLHttpRequest();
     request.open("DELETE", uri +'Delete/'+ id, false);
     request.onload = function () {
-        getQuests();
+        // Обработка кода ответа
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав для создания";
+        } else if (request.status === 201) {
+            msg = "Запись добавлена";
+            getQuests();
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
+       // getQuests();
     };
     request.send();
 }

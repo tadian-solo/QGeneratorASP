@@ -14,10 +14,7 @@ namespace QGeneratorASP.Models
             Quest = new HashSet<Quest>();
             Riddle = new HashSet<Riddle>();
         }
-       // [Key]
-       // public int Id_user { get; set; }
-       // public string Name { get; set; }
-       // public string Password { get; set; }
+       
         public bool AccessLevel { get; set; }
 
         public virtual ICollection<Quest> Quest { get; set; }

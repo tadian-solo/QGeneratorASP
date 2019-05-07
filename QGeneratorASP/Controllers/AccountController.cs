@@ -32,6 +32,7 @@ namespace QGeneratorASP.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "user");//
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
                     var msg = new
@@ -117,6 +118,22 @@ namespace QGeneratorASP.Controllers
             };
             return Ok(msg);
         }
+        [HttpPost]
+        [Route("api/Account/isAuthenticated")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogisAuthenticatedOff()
+        {
+            User usr = await GetCurrentUserAsync();
+             var message = usr == null ? "Вы Гость. Пожалуйста, выполните вход." : "Вы вошли как: " + usr.UserName;
+             var msg = new
+                 {
+                     message
+                 };
+             return Ok(msg);
+           // return Ok(usr == null ? false : true);
+        }
+        private Task<User> GetCurrentUserAsync() =>
+        _userManager.GetUserAsync(HttpContext.User);
 
     }
 }
