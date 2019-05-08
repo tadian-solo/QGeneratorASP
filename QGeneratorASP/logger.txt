@@ -1,0 +1,54 @@
+Executing ObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+Executing ObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+Entity Framework Core 2.2.3-servicing-35854 initialized 'GQ' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed action QGeneratorASP.Controllers.AccountController.LogisAuthenticatedOff (QGeneratorASP) in 219.5546ms
+Executed action QGeneratorASP.Controllers.AccountController.LogisAuthenticatedOff (QGeneratorASP) in 219.5546ms
+Executed endpoint 'QGeneratorASP.Controllers.AccountController.LogisAuthenticatedOff (QGeneratorASP)'
+Executed endpoint 'QGeneratorASP.Controllers.AccountController.LogisAuthenticatedOff (QGeneratorASP)'
+Request finished in 416.3535ms 200 application/json; charset=utf-8
+Request finished in 416.3535ms 200 application/json; charset=utf-8
+Executed action QGeneratorASP.Controllers.QuestController.GetAll (QGeneratorASP) in 902.787ms
+Executed action QGeneratorASP.Controllers.QuestController.GetAll (QGeneratorASP) in 902.787ms
+Executed endpoint 'QGeneratorASP.Controllers.QuestController.GetAll (QGeneratorASP)'
+Executed action QGeneratorASP.Controllers.QuestController.GetLevels (QGeneratorASP) in 1211.5443ms
+Executed action QGeneratorASP.Controllers.QuestController.GetLevels (QGeneratorASP) in 1211.5443ms
+Executed endpoint 'QGeneratorASP.Controllers.QuestController.GetLevels (QGeneratorASP)'
+Executed endpoint 'QGeneratorASP.Controllers.QuestController.GetLevels (QGeneratorASP)'
+An unhandled exception has occurred while executing the request.
+An unhandled exception has occurred while executing the request.
+An unhandled exception has occurred while executing the request.
+An unhandled exception has occurred while executing the request.
+Request finished in 2671.4705ms 500 text/html; charset=utf-8
+Request finished in 2671.4705ms 500 text/html; charset=utf-8
+Request finished in 2652.3199ms 500 text/html; charset=utf-8
+Request starting HTTP/2.0 GET https://localhost:44355/quests.html  
+Request starting HTTP/2.0 GET https://localhost:44355/quests.html  
+The file /quests.html was not modified
+The file /quests.html was not modified
+Request finished in 87.7279ms 304 text/html
+Request finished in 87.7279ms 304 text/html
+Request starting HTTP/2.0 GET https://localhost:44355/css/stylesheet.css  
+Request starting HTTP/2.0 GET https://localhost:44355/css/stylesheet.css  
+The file /css/stylesheet.css was not modified
+The file /css/stylesheet.css was not modified
+Request finished in 30.1651ms 304 text/css
+Request finished in 30.1651ms 304 text/css
+Request starting HTTP/2.0 GET https://localhost:44355/js/scriptQuest.js  
+Request starting HTTP/2.0 GET https://localhost:44355/js/scriptQuest.js  
+Request starting HTTP/2.0 GET https://localhost:44355/css/images/header1.jpg  
+Request starting HTTP/2.0 GET https://localhost:44355/css/images/header1.jpg  
+The file /js/scriptQuest.js was not modified
+The file /css/images/header1.jpg was not modified
+The file /css/images/header1.jpg was not modified
+Request finished in 388.5536ms 304 image/jpeg
+Request finished in 388.5536ms 304 image/jpeg
+An unhandled exception has occurred while executing the request.
+An unhandled exception has occurred while executing the request.
+Request finished in 613.4298ms 500 text/html; charset=utf-8
+Request finished in 613.4298ms 500 text/html; charset=utf-8
+Request starting HTTP/2.0 GET https://localhost:44355/js/scriptQuest.js  
+Request starting HTTP/2.0 GET https://localhost:44355/js/scriptQuest.js  
+The file /js/scriptQuest.js was not modified
+The file /js/scriptQuest.js was not modified
+Request finished in 39.3381ms 304 application/javascript
+Request finished in 39.3381ms 304 application/javascript

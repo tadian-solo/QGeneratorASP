@@ -130,6 +130,7 @@ namespace QGeneratorASP.Data
             context.QuestRiddle.Add(new QuestRiddle { Riddle = context.Riddle.Find(riddle[1].Id_riddle) , Quest = context.Quest.Find(quests[0].Id_quest) });
             context.QuestRiddle.Add(new QuestRiddle { Riddle = context.Riddle.Find(riddle[2].Id_riddle), Quest = context.Quest.Find(quests[1].Id_quest) });
             context.QuestRiddle.Add(new QuestRiddle { Riddle = context.Riddle.Find(riddle[1].Id_riddle), Quest = context.Quest.Find(quests[1].Id_quest) });
+            context.UserQuest.Add(new UserQuest { Quest = context.Quest.Find(quests[1].Id_quest), User = context.User.FirstOrDefault() });
             context.SaveChanges();
         }
     }

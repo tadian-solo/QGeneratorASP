@@ -31,6 +31,9 @@ function getCount(data) {
 }
 
 function getQuests() {
+  /*  let request = new XMLHttpRequest();
+    request.open("GET", '/api/QR/');*/
+
     let request = new XMLHttpRequest();
     request.open("GET", uri+'GetAll');
     request.onload = function () {
@@ -46,7 +49,9 @@ function getQuests() {
                     for (i in qs) {
                         qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span>';
                         qsHTML += '<button onclick="editQuest(' + qs[i].id_quest  + ')">Изменить</button>';
-                        qsHTML += '<button onclick="deleteQuest(' + qs[i].id_quest  + ')">Удалить</button></div>';
+                        qsHTML += '<button onclick="deleteQuest(' + qs[i].id_quest + ')">Удалить</button></div>';
+                        //if UserQuest.Find(...)
+                        qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
                         if (typeof qs[i].questRiddle !== "undefined" && qs[i].questRiddle.length > 0) 
                           {
                             let j;
@@ -197,7 +202,7 @@ function deleteQuest(id) {
         // Обработка кода ответа
         var msg = "";
         if (request.status === 401) {
-            msg = "У вас не хватает прав для создания";
+            msg = "У вас не хватает прав";
         } else if (request.status === 201) {
             msg = "Запись добавлена";
             getQuests();
@@ -208,6 +213,19 @@ function deleteQuest(id) {
        // getQuests();
     };
     request.send();
+}
+function addQuestLoved(id){
+   
+  
+    var request = new XMLHttpRequest();
+    request.open("POST", "/api/UQ/");
+    request.onload = function () {
+        getQuests();
+
+    };
+    request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ id_quest: id, id_user: -1 }));
 }
 function deleteRiddleInQuest(id_q, id_r)
 {

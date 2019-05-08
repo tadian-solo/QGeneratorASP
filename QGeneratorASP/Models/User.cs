@@ -13,11 +13,13 @@ namespace QGeneratorASP.Models
         {
             Quest = new HashSet<Quest>();
             Riddle = new HashSet<Riddle>();
+            UserQuest = new HashSet<UserQuest>();
         }
        
         public bool AccessLevel { get; set; }
 
         public virtual ICollection<Quest> Quest { get; set; }
+        public virtual ICollection<UserQuest> UserQuest { get; set; }
         public virtual ICollection<Riddle> Riddle { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace QGeneratorASP.Models
         public virtual DbSet<Quest> Quest { get; set; }
         public virtual DbSet<Riddle> Riddle { get; set; }
         public virtual DbSet<QuestRiddle> QuestRiddle { get; set; }
+        public virtual DbSet<UserQuest> UserQuest { get; set; }
         public virtual DbSet<Type_of_question> Type_of_question { get; set; }
         public virtual DbSet<User> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -99,6 +100,27 @@ namespace QGeneratorASP.Models
                     .WithMany(p => p.QuestRiddle)
                     .HasForeignKey(d => d.Id_Riddle_Fk)
                     .HasConstraintName("FK_Quest_Riddle_Riddle");
+            });
+            modelBuilder.Entity<UserQuest>(entity =>
+            {
+                entity.HasKey(e => new { e.Id_Quest_Fk, e.Id_User_Fk });
+
+                entity.ToTable("User_Quest");
+
+                entity.Property(e => e.Id_Quest_Fk).HasColumnName("Id_Quest_FK");
+
+                entity.Property(e => e.Id_User_Fk).HasColumnName("Id_User_FK");
+
+                entity.HasOne(d => d.Quest)
+                    .WithMany(p => p.UserQuest)
+                    .HasForeignKey(d => d.Id_Quest_Fk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quest_User_Quest");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserQuest)
+                    .HasForeignKey(d => d.Id_User_Fk)
+                    .HasConstraintName("FK_Quest_User_User");
             });
 
             modelBuilder.Entity<Riddle>(entity =>
