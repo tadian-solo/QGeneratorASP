@@ -47,7 +47,8 @@ namespace QGeneratorASP.Controllers
                       .ThenInclude(r => r.Riddle).ThenInclude(l => l.Type_of_question)
                       .ThenInclude(r => r.Riddle).ThenInclude(u => u.User)
                 .Include(u=>u.UserQuest) 
-                .ThenInclude(u=>u.User);
+                .ThenInclude(u=>u.User)
+                .ThenInclude(u => u.Quest);
         }
  
         public IEnumerable<Level_of_complexity> GetLevels()

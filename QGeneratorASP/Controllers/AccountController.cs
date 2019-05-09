@@ -132,6 +132,16 @@ namespace QGeneratorASP.Controllers
              return Ok(msg);
            // return Ok(usr == null ? false : true);
         }
+        [HttpPost]
+        [Route("api/Account/getUser")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> GetUser()
+        {
+            User usr = await GetCurrentUserAsync();
+            if (usr == null) { return NotFound(); }
+            return Ok(usr.Id);
+            // return Ok(usr == null ? false : true);
+        }
         private Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);
 

@@ -34,6 +34,7 @@ namespace QGeneratorASP.Controllers
                 User usr = await GetCurrentUserAsync();
                 id.id_user = usr.Id;
             }
+
             if (_context.User.Find(id.id_user) != null && _context.Quest.Find(id.id_quest) != null)
                 _context.UserQuest.Add(new UserQuest { User = _context.User.Find(id.id_user), Quest = _context.Quest.Find(id.id_quest) });
             await _context.SaveChangesAsync();
@@ -41,6 +42,7 @@ namespace QGeneratorASP.Controllers
         }
         private Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);
+
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] Ids id)
         {

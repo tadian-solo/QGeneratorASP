@@ -33,6 +33,13 @@ function getCount(data) {
 function getQuests() {
   /*  let request = new XMLHttpRequest();
     request.open("GET", '/api/QR/');*/
+    let id = 0;
+    let request1 = new XMLHttpRequest();
+    request1.open("POST", "/api/Account/getUser", true);
+    request1.onload = function () {
+        id= JSON.parse(request1.responseText);
+    };
+    request1.send();
 
     let request = new XMLHttpRequest();
     request.open("GET", uri+'GetAll');
@@ -50,8 +57,18 @@ function getQuests() {
                         qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span>';
                         qsHTML += '<button onclick="editQuest(' + qs[i].id_quest  + ')">Изменить</button>';
                         qsHTML += '<button onclick="deleteQuest(' + qs[i].id_quest + ')">Удалить</button></div>';
-                        //if UserQuest.Find(...)
-                        qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
+                        //qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
+                        let isLoved = false;
+                        if (id != undefined)
+                        {
+                            for (let j in qs[i].userQuest) {
+                                if (qs[i].userQuest[j].user.id == id)
+                                    isLoved = true;
+                                    //qsHTML += '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' +id+')">Из Избранное</button></div>';
+                            }
+                        }
+
+                        qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')">Из Избранное</button></div>';
                         if (typeof qs[i].questRiddle !== "undefined" && qs[i].questRiddle.length > 0) 
                           {
                             let j;
@@ -229,6 +246,18 @@ function addQuestLoved(id){
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id_quest: id, id_user: -1 }));
 }
+function deleteQuestLoved(id_q, id_u) {
+    let request = new XMLHttpRequest();
+    request.open("DELETE", "/api/UQ/");
+    request.onload = function () {
+        getQuests();
+
+    };
+    request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ id_quest: id_q, id_user: id_u }));
+
+}
 function deleteRiddleInQuest(id_q, id_r)
 {
     let request = new XMLHttpRequest();
@@ -306,3 +335,12 @@ function logOff() {
 // Обработка кликов по кнопкам
 document.getElementById("loginBtn").addEventListener("click", logIn);
 document.getElementById("logoffBtn").addEventListener("click", logOff);
+
+/*function getCurrentUser() {
+    let request = new XMLHttpRequest();
+    request.open("POST", "/api/Account/getUser", true);
+    request.onload = function () {
+        return JSON.parse(request.responseText);
+    };
+    request.send();
+}*/
