@@ -32,7 +32,7 @@ namespace QGeneratorASP.Controllers
             if (id.id_user == -1)
             {
                 User usr = await GetCurrentUserAsync();
-                id.id_user = usr.Id;
+                id.id_user = usr!=null?usr.Id:-1;
             }
 
             if (_context.User.Find(id.id_user) != null && _context.Quest.Find(id.id_quest) != null)

@@ -37,7 +37,12 @@ function getQuests() {
     let request1 = new XMLHttpRequest();
     request1.open("POST", "/api/Account/getUser", true);
     request1.onload = function () {
-        id= JSON.parse(request1.responseText);
+        try
+        { id = JSON.parse(request1.responseText) }
+        catch(err) 
+        {
+            id = undefined;
+        }
     };
     request1.send();
 
@@ -66,9 +71,11 @@ function getQuests() {
                                     isLoved = true;
                                     //qsHTML += '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' +id+')">Из Избранное</button></div>';
                             }
+                            qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')">Из Избранное</button></div>';
+
                         }
 
-                        qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')">Из Избранное</button></div>';
+                        //qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')">Из Избранное</button></div>';
                         if (typeof qs[i].questRiddle !== "undefined" && qs[i].questRiddle.length > 0) 
                           {
                             let j;
