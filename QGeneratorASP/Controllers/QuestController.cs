@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using QGeneratorASP.Models;
 
 namespace QGeneratorASP.Controllers
@@ -15,10 +16,13 @@ namespace QGeneratorASP.Controllers
     public class QuestController : ControllerBase
     {
         private readonly GQ _context;
-        public QuestController(GQ context)
+        private readonly ILogger _logger;
+        public QuestController(GQ context, ILogger<QuestController> logger)
         {
             _context = context;
-            if (_context.Quest.Count() == 0)
+            _logger = logger;
+
+            /*if (_context.Quest.Count() == 0)
             {
 
                 _context.Quest.Add(new Quest
@@ -30,7 +34,7 @@ namespace QGeneratorASP.Controllers
                     Level_of_complexity = new Level_of_complexity { Name_level = "hard" }
                 });
                 _context.SaveChanges();
-            }
+            }*/
         }
         [HttpGet]
         public IEnumerable<Quest> GetAll()
@@ -41,7 +45,9 @@ namespace QGeneratorASP.Controllers
                       .ThenInclude(r=>r.Riddle).ThenInclude(a => a.Answer)
                       .ThenInclude(r => r.Riddle).ThenInclude(a => a.Level_of_complexity)
                       .ThenInclude(r => r.Riddle).ThenInclude(l => l.Type_of_question)
-                      .ThenInclude(r => r.Riddle).ThenInclude(u => u.User);
+                      .ThenInclude(r => r.Riddle).ThenInclude(u => u.User)
+                .Include(u=>u.UserQuest) 
+                .ThenInclude(u=>u.User);
         }
  
         public IEnumerable<Level_of_complexity> GetLevels()
@@ -65,6 +71,7 @@ namespace QGeneratorASP.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             _context.Quest.Add(q);
+            _logger.LogInformation("Create quest");
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetQuest", new { id = q.Id_quest }, q);
         }
@@ -86,6 +93,7 @@ namespace QGeneratorASP.Controllers
             item.Status = item.User.AccessLevel;
             item.QuestRiddle = q.QuestRiddle;
             _context.Quest.Update(item);
+            _logger.LogInformation("Update quest");
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -97,6 +105,7 @@ namespace QGeneratorASP.Controllers
             var item = _context.Quest.Find(id);
             if (item == null) { return NotFound(); }
             _context.Quest.Remove(item);
+            _logger.LogInformation("Delete quest");
             await _context.SaveChangesAsync();
             return NoContent();
         }

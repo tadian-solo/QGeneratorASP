@@ -93,12 +93,13 @@ namespace QGeneratorASP.Models
                 entity.HasOne(d => d.Quest)
                     .WithMany(p => p.QuestRiddle)
                     .HasForeignKey(d => d.Id_Quest_Fk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                   // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quest_Riddle_Quest");
 
                 entity.HasOne(d => d.Riddle)
                     .WithMany(p => p.QuestRiddle)
-                    .HasForeignKey(d => d.Id_Riddle_Fk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasForeignKey(d => d.Id_Riddle_Fk)//set null?
                     .HasConstraintName("FK_Quest_Riddle_Riddle");
             });
             modelBuilder.Entity<UserQuest>(entity =>
@@ -114,12 +115,13 @@ namespace QGeneratorASP.Models
                 entity.HasOne(d => d.Quest)
                     .WithMany(p => p.UserQuest)
                     .HasForeignKey(d => d.Id_Quest_Fk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                   // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quest_User_Quest");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserQuest)
                     .HasForeignKey(d => d.Id_User_Fk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quest_User_User");
             });
 

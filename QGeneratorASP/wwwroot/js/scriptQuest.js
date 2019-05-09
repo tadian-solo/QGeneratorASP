@@ -203,8 +203,8 @@ function deleteQuest(id) {
         var msg = "";
         if (request.status === 401) {
             msg = "У вас не хватает прав";
-        } else if (request.status === 201) {
-            msg = "Запись добавлена";
+        } else if (request.status === 204) {
+            msg = "Запись удалена";
             getQuests();
         } else {
             msg = "Неизвестная ошибка";
@@ -213,6 +213,8 @@ function deleteQuest(id) {
        // getQuests();
     };
     request.send();
+    getQuests();
+
 }
 function addQuestLoved(id){
    

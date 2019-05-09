@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using QGeneratorASP.Data;
 using QGeneratorASP.Models;
 
@@ -25,13 +26,24 @@ namespace QGeneratorASP
                     DbInitializer.Initialize(context); }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DB.");
+                    /*var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred creating the DB.");*/
                 }
             }
             host.Run();
         }
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()
+            .ConfigureLogging(logging =>
+        {
+            logging.SetMinimumLevel(LogLevel.Information);
+            logging.ClearProviders();
+            logging.AddDebug()
+            .AddFilter("System", LogLevel.Warning)
+               .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Warning);
+
+    })
+;
 
     }
 }
