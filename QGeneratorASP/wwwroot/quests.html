@@ -3,10 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Квесты</title>
-  
- <!--   <meta name="viewport" content="width=device-width, initial-scale=1">-->
-    <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
-   
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
+
 
 </head>
 <body>
@@ -93,7 +95,7 @@
             </form>
         </div>
 
-        <div id="editDiv" hidden>
+        <div id="editDiv" style="display:none">
             <h3>Редактирование</h3>
             <form class="my-form">
                 <input type="hidden" id="edit-id">
@@ -120,6 +122,10 @@
         <div>
             <div id="questsDiv"></div>
         </div>
+        <!-- Подключаем jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Подключаем Bootstrap JS -->
+        <script src="js/bootstrap.min.js"></script>
 
         <script src="js/scriptQuest.js" charset="utf-8"></script>
 

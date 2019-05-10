@@ -61,7 +61,7 @@ function getQuests() {
                     for (i in qs) {
                         qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span>';
                         qsHTML += '<button onclick="editQuest(' + qs[i].id_quest  + ')">Изменить</button>';
-                        qsHTML += '<button onclick="deleteQuest(' + qs[i].id_quest + ')">Удалить</button></div>';
+                        qsHTML += '<button onclick="deleteQuest(' + qs[i].id_quest + ')">Удалить</button>';
                         //qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
                         let isLoved = false;
                         if (id != undefined)
@@ -71,7 +71,7 @@ function getQuests() {
                                     isLoved = true;
                                     //qsHTML += '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' +id+')">Из Избранное</button></div>';
                             }
-                            qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')">Из Избранное</button></div>';
+                            qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-star" aria-hidden="true" ></span></button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')"><span class="glyphicon glyphicon-star" aria-hidden="true" style="color: yellow"></span></button></div>';
 
                         }
 
@@ -314,6 +314,7 @@ function logIn() {
                 }
             }
             document.getElementById("Password").value = "";
+            getQuests();
         }
     };
     // Запрос на сервер
@@ -334,6 +335,7 @@ function logOff() {
             mydiv.removeChild(mydiv.firstChild);
         }
         document.getElementById("msg").innerHTML = msg.message;
+        getQuests();
     };
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send();
