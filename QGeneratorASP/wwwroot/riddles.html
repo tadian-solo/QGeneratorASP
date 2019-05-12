@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <title>Загадки</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -14,8 +17,9 @@
                 <li><a href="/index.html">Главная</a></li>
                 <li><a href="/quests.html">Квесты</a></li>
                 <li class="active">Загадки</li>
-                <li><a href="/myquests.html">Мои квесты</a></li>
-
+                <li><a href="/loved.html">Избранное</a></li>
+                <li></li>
+                <li><a id="log" href="/register.html">Войти/Выйти</a></li>
             </ul>
 
         </nav>
@@ -27,13 +31,13 @@
             <h3>Создание новой загадки</h3>
             <form>
                 <!-- <label for="createStatus"> Status:</label>
-            <input id="createStatus" type="text" />-->
+    <input id="createStatus" type="text" />-->
 
                 <label for="createText">Текст загадки:</label>
                 <input id="createText" type="text" />
 
                 <label for="createDescription">Описание:</label>
-                <input id="createDescription" type="text" />
+                <input id="createDescription" type="text" /></br>
 
                 <!--<label for="createDate">Date:</label>-->
                 <!--<input id="createDate" type="text" />-->
@@ -49,9 +53,8 @@
 
 
 
-                <label for="createUser">Автор:</label>
-                <input id="createUser" type="text" />
-
+                <!--<label for="createUser">Автор:</label>
+    <input id="createUser" type="text" />-->
                 <!-- <label for="createRiddle">Riddle:</label>-->
                 <!--  <input id="createRiddle" type="text" />-->
 
@@ -61,13 +64,13 @@
 
 
 
-        <div id="editDiv" hidden>
+        <div id="editDiv" style="display:none">
             <h3>Редактирование</h3>
             <form class="my-form">
                 <input type="hidden" id="edit-id">
 
 
-                <input id="edit-status" type="text" />
+                <!--<input id="edit-status" type="text" />-->
                 <input id="edit-text" type="text" />
 
                 <input id="edit-description" type="text" />
@@ -79,7 +82,7 @@
                 <select name="edit-answer" size="1" id="editAnswerId"></select>
 
 
-                <input id="edit-user" type="text" />
+                <!--<input id="edit-user" type="text" />-->
 
                 <button onclick="updateRiddle(); return false;">Сохранить</button>
                 <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
@@ -87,10 +90,14 @@
         </div>
 
         <h3>Список загадок</h3>
+        <div id="actionMsg" class="msgClass"></div>
         <div>
-            <div id="riddlesDiv"></div>
+            <div id="riddlesDiv" data-user="-1"></div>
         </div>
-
+        <!-- Подключаем jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Подключаем Bootstrap JS -->
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/scripts.js"></script>
     </div>
 </body>

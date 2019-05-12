@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QGeneratorASP.Models;
 
 namespace QGeneratorASP.Controllers
@@ -14,11 +15,13 @@ namespace QGeneratorASP.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly GQ _context;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, GQ context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpPost]
@@ -119,6 +122,29 @@ namespace QGeneratorASP.Controllers
             return Ok(msg);
         }
         [HttpPost]
+        [Route("api/Account/GetUser")]
+        public async Task<IActionResult> GetUser()
+        {
+            User usr = await GetCurrentUserAsync();
+            if (usr == null) { return Ok(-1); }
+            var user = await _context.User
+                .Include(u => u.UserQuest)
+                     .ThenInclude(u => u.Quest).ThenInclude(r=>r.Level_of_complexity)
+                .Include(r=>r.UserQuest)
+                     .ThenInclude(u => u.Quest).ThenInclude(r=>r.User)
+                .Include(r => r.UserQuest)
+                     .ThenInclude(u => u.Quest).ThenInclude(r=>r.QuestRiddle).ThenInclude(r=>r.Riddle).ThenInclude(a => a.Answer)
+                .Include(r => r.UserQuest)
+                     .ThenInclude(u => u.Quest).ThenInclude(r => r.QuestRiddle).ThenInclude(r => r.Riddle).ThenInclude(a => a.Level_of_complexity)
+                 .Include(r => r.UserQuest)
+                     .ThenInclude(u => u.Quest).ThenInclude(r => r.QuestRiddle).ThenInclude(r => r.Riddle).ThenInclude(a => a.Type_of_question)
+                 .Include(r => r.UserQuest)
+                     .ThenInclude(u => u.Quest).ThenInclude(r => r.QuestRiddle).ThenInclude(r => r.Riddle).ThenInclude(a => a.User)
+                .FirstOrDefaultAsync(m => m.Id == usr.Id);
+            if (user == null) { return NotFound(); }
+            return Ok(user);
+        }
+        [HttpPost]
         [Route("api/Account/isAuthenticated")]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LogisAuthenticatedOff()
@@ -137,13 +163,13 @@ namespace QGeneratorASP.Controllers
         [HttpPost]
         [Route("api/Account/getUser")]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetUser()
+       /* public async Task<IActionResult> GetUser()
         {
             User usr = await GetCurrentUserAsync();
             if (usr == null) { return NotFound(); }
             return Ok(usr.Id);
            
-        }
+        }*/
         private Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);
 

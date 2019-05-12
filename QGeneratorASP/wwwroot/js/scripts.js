@@ -5,14 +5,39 @@ let items = null;
 //var types = null;
 //var answers = null;
 document.addEventListener("DOMContentLoaded", function (event) {
+    getCurrentUser();
     getRiddles();
+
 });
 document.addEventListener("DOMContentLoaded", function (event) {
     getLevels("createLevelId");
     getTypes("createTypeId");
     getAnswers("createAnswerId");
 });
+function getCurrentUser() {
+    let request = new XMLHttpRequest();
+    // let id = 0;
+    var user_id;
+    request.open("POST", "/api/Account/isAuthenticated", true);
+    request.onload = function () {
+        /*
+        let myObj = "";
+        myObj = request.responseText !== "" ?
+            JSON.parse(request.responseText) : {};
+        document.getElementById("msg").innerHTML = myObj.message;*/
+        try {
+            user_id = JSON.parse(request.responseText);
 
+        }
+
+        catch (err) {
+            user_id = -1;//
+        }
+        var autor = document.getElementById('riddlesDiv');
+        autor.dataset.user = user_id;
+    };
+    request.send();
+}
 function getCount(data) {
     const el = document.querySelector("#counter");
     let name = "Количество riddle:";
@@ -37,9 +62,10 @@ function getRiddles() {
                 if (rs) {
                     var i;
                     for (i in rs) {
-                        rsHTML += '<div class="blogText"><span>' + 'Загадка №' + rs[i].id_riddle + ' : ' + 'Статус: ' + rs[i].status + ' Теxt: ' + rs[i].text + ' Desc: ' + rs[i].description + ' Уровень сложности: ' + rs[i].level_of_complexity.name_level + ' Type: ' + rs[i].type_of_question.name  + ' Answer: ' + rs[i].answer.object+' Автор: ' + rs[i].user.name + ' </span>';
-                        rsHTML += '<button onclick="editRiddle(' + rs[i].id_riddle + ')">Изменить</button>';
-                        rsHTML += '<button onclick="deleteRiddle(' + rs[i].id_riddle + ')">Удалить</button></div>';
+                        rsHTML += '<div class="blogText"><span>' + 'Загадка №' + rs[i].id_riddle + ' : ' + 'Статус: ' + rs[i].status + ' Теxt: ' + rs[i].text + ' Desc: ' + rs[i].description + ' Уровень сложности: ' + rs[i].level_of_complexity.name_level + ' Type: ' + rs[i].type_of_question.name + ' Answer: ' + rs[i].answer.object + ' Автор: ' + rs[i].user.userName + ' </span></br>';
+                       // rsHTML +='<span>'+
+                        rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
+                        rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button></div>';
                         
                     }
                 }
@@ -142,13 +168,25 @@ function createRiddle() {
     var _type = parseInt(objSel.options[objSel.selectedIndex].value, 10);
     objSel = document.getElementById("createAnswerId");
     var _answer = parseInt(objSel.options[objSel.selectedIndex].value, 10);
-    var _user = parseInt(document.querySelector("#createUser").value, 10);
+    var autor = document.getElementById('riddlesDiv');
+    var _user = autor.dataset.user;
+    //var _user = parseInt(document.querySelector("#createUser").value, 10);
     //var riddle = parseInt(document.querySelector("#createLevel").value, 10);
 
     var request = new XMLHttpRequest();
     request.open("POST", uri + 'Create');
     request.onload = function () {
         getRiddles();
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 201) {
+            msg = "Запись добавлена";
+            
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
 
     };
     request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
@@ -175,7 +213,7 @@ function editRiddle(id) {
         for (i in items) {
             if (id === items[i].id_riddle) {
                 document.querySelector("#edit-id").value = items[i].id_riddle;
-                document.querySelector("#edit-status").value = items[i].status;
+                //document.querySelector("#edit-status").value = items[i].status;
                 document.querySelector("#edit-text").value = items[i].text;
                 document.querySelector("#edit-description").value = items[i].description;
                 let objSel = document.getElementById("editLevelId");
@@ -193,7 +231,7 @@ function editRiddle(id) {
                 for (j in objSel.options) {
                     if (objSel.options[j].value == items[i].id_Answer_FK) objSel.options[j].selected = true;
                 }
-                document.querySelector("#edit-user").value = items[i].id_Autor_FK;
+                //document.querySelector("#edit-user").value = items[i].id_Autor_FK;
                 // document.querySelector("#edit-questRiddle").value = items[i].
             }
         }
@@ -204,15 +242,16 @@ function updateRiddle() {
     let objSel = document.getElementById("editLevelId");
     let objSel2 = document.getElementById("editTypeId");
     let objSel3 = document.getElementById("editAnswerId");
+    var autor = document.getElementById('riddlesDiv');
     const riddle = {
         id_riddle: document.querySelector("#edit-id").value,
-        status: document.querySelector("#edit-status").value,
+        status: false,//document.querySelector("#edit-status").value,
         text: document.querySelector("#edit-text").value,
         description: document.querySelector("#edit-description").value,
         id_Level_FK: objSel.options[objSel.selectedIndex].value,
         id_Type_FK: objSel2.options[objSel2.selectedIndex].value,
         id_Answer_FK: objSel3.options[objSel3.selectedIndex].value,
-        id_autor_Fk: document.querySelector("#edit-user").value,
+        id_autor_Fk: autor.dataset.user//document.querySelector("#edit-user").value,
         //questRiddle: document.querySelector("#edit-questRiddle").value
 
 
@@ -222,6 +261,16 @@ function updateRiddle() {
     request.onload = function () {
         getRiddles();
         closeInput();
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 204) {
+            msg = "Запись отредактирована";
+            
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
     };
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify(riddle));
@@ -231,6 +280,16 @@ function deleteRiddle(id) {
     let request = new XMLHttpRequest();
     request.open("DELETE", uri + 'Delete/' + id, false);
     request.onload = function () {
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 204) {
+            msg = "Запись удалена";
+           
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
         getRiddles();
     };
     request.send();

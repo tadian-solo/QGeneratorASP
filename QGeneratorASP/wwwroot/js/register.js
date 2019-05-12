@@ -46,9 +46,25 @@ function logIn() {
         password: password
     }));
 }
-
+function logOff() {
+    var request = new XMLHttpRequest();
+    request.open("POST", "api/account/logoff");
+    request.onload = function () {
+        var msg = JSON.parse(this.responseText);
+        document.getElementById("msg").innerHTML = "";
+        var mydiv = document.getElementById('formError');
+        while (mydiv.firstChild) {
+            mydiv.removeChild(mydiv.firstChild);
+        }
+        document.getElementById("msg").innerHTML = msg.message;
+        getQuests();
+    };
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send();
+}
 // Обработка кликов по кнопкам
 document.getElementById("loginBtn").addEventListener("click", logIn);
+document.getElementById("logOffBtn").addEventListener("click", logOff);
 document.getElementById("logoffBtn").addEventListener("click", closeInput);
 
 function Register() {

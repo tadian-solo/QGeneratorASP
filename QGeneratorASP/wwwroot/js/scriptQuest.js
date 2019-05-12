@@ -24,13 +24,17 @@ function getCurrentUser() {
         myObj = request.responseText !== "" ?
             JSON.parse(request.responseText) : {};
         document.getElementById("msg").innerHTML = myObj.message;*/
+       //var user = document.getElementById('log');
         try {
             user_id = JSON.parse(request.responseText);
+           // user.innerText = "Выйти";
+
 
         }
 
         catch (err) {
             user_id = -1;//
+            //user.innerText = "Войти";
         }
         var autor = document.getElementById('questsDiv');
         autor.dataset.user = user_id;
@@ -85,7 +89,7 @@ function getQuests() {
                 if (qs) {
                     var i;
                     for (i in qs) {
-                        qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date.split('T')[0]  + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span>';
+                        qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date.split('T')[0]  + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span></br>';
                         qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
                         qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button>';
                         //qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
@@ -166,7 +170,7 @@ function createQuest()
         var msg = "";
         if (request.status === 401) {
             msg = "У вас не хватает прав";
-        } else if (request.status === 204) {
+        } else if (request.status === 201) {
             msg = "Запись добавлена";
             getQuests();
         } else {
@@ -194,15 +198,15 @@ function createRiddleInQuest()
     request.open("POST", "/api/QR/");
     request.onload = function () {
         getQuests();
-        var msg = "";
+      /*  var msg = "";
         if (request.status === 401) {
             msg = "У вас не хватает прав";
-        } else if (request.status === 204) {
+        } else if (request.status === 201) {
             msg = "Успешно";
             getQuests();
         } else {
             msg = "Неизвестная ошибка";
-        }
+        }*/
         document.querySelector("#actionMsg").innerHTML = msg;
 
     };
@@ -293,10 +297,10 @@ function deleteQuest(id) {
             msg = "Неизвестная ошибка";
         }
         document.querySelector("#actionMsg").innerHTML = msg;
-       // getQuests();
+        getQuests();
     };
     request.send();
-    getQuests();
+   // getQuests();
 
 }
 function addQuestLoved(id){
@@ -330,7 +334,7 @@ function deleteRiddleInQuest(id_q, id_r)
     request.open("DELETE", "/api/QR/");
     request.onload = function () {
         getQuests();
-        var msg = "";
+        /*var msg = "";
         if (request.status === 401) {
             msg = "У вас не хватает прав";
         } else if (request.status === 204) {
@@ -338,7 +342,7 @@ function deleteRiddleInQuest(id_q, id_r)
             getQuests();
         } else {
             msg = "Неизвестная ошибка";
-        }
+        }*/
         document.querySelector("#actionMsg").innerHTML = msg;
 
     };
