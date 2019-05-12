@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,7 +89,7 @@ namespace QGeneratorASP.Controllers
             if (q == null) { return NotFound(); }
             return Ok(q);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Riddle q)
         {
@@ -97,6 +98,7 @@ namespace QGeneratorASP.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetRiddle", new { id = q.Id_riddle }, q);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Riddle q)
         {
@@ -116,7 +118,7 @@ namespace QGeneratorASP.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {

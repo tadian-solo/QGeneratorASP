@@ -49,14 +49,31 @@ a {
 button {
     color: #fff;
     background-color: #29c5e6;
+   border: none;
+    height: 32px;
+    margin: 3px;
+    font-family: 'Oswald', sans-serif;
+  border-radius:19px;
+  padding-top:3px;
+  padding-bottom:3px;
+
+}
+.btn-icon {
+    color: #fff;
+    background-color: #29c5e6;
     border: none;
     height: 32px;
-    margin: 2px;
+    margin: 6px;
     font-family: 'Oswald', sans-serif;
+    border-radius: 19px;
+    padding-top: 0px;
+    padding-bottom: 3px;
+    padding-left: 1px;
 }
 .del-button {
     background-color: #f8f8f8;
     color: #29c5e6;
+
 }
 select {
     background-color: #f3f3f3;
@@ -77,7 +94,7 @@ p {
 
 header {
     height:280px;
-     background: url("images/header1.jpg") no-repeat center bottom;
+     background: url("images/header3.jpg") no-repeat center bottom;
      
 
 }
@@ -117,9 +134,9 @@ nav li {
 
 h1 {
     display: inline-block;
-    color: #7e7e7e;
-   
-  
-    margin: 0;
+    color: #00012e;
+    background-color: #aee1e2;
+    margin: 0px 0px 0px -20px;
+    width:960px;
     padding: 0 10px;
 }

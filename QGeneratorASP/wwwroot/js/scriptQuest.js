@@ -1,22 +1,39 @@
 /*jshint esversion: 6 */
 const uri = "/api/quest/";
 let items = null;
-
+var user_id;
 document.addEventListener("DOMContentLoaded", function (event) {
-    getQuests();
+    
     getCurrentUser();
-});
-document.addEventListener("DOMContentLoaded", function (event) {
     getLevels("createLevelId");
+    getQuests();
 });
+/*document.addEventListener("DOMContentLoaded", function (event) {
+    getLevels("createLevelId");
+});*/
+
+//var user_id;
 function getCurrentUser() {
     let request = new XMLHttpRequest();
+   // let id = 0;
+    var user_id;
     request.open("POST", "/api/Account/isAuthenticated", true);
     request.onload = function () {
+        /*
         let myObj = "";
         myObj = request.responseText !== "" ?
             JSON.parse(request.responseText) : {};
-        document.getElementById("msg").innerHTML = myObj.message;
+        document.getElementById("msg").innerHTML = myObj.message;*/
+        try {
+            user_id = JSON.parse(request.responseText);
+
+        }
+
+        catch (err) {
+            user_id = -1;//
+        }
+        var autor = document.getElementById('questsDiv');
+        autor.dataset.user = user_id;
     };
     request.send();
 }
@@ -33,49 +50,57 @@ function getCount(data) {
 function getQuests() {
   /*  let request = new XMLHttpRequest();
     request.open("GET", '/api/QR/');*/
-    let id = 0;
+   /* let id = 0;
     let request1 = new XMLHttpRequest();
     request1.open("POST", "/api/Account/getUser", true);
     request1.onload = function () {
         try
-        { id = JSON.parse(request1.responseText) }
-        catch(err) 
+        {
+            id = JSON.parse(request1.responseText);
+            
+        }
+
+        catch (err) 
         {
             id = undefined;
         }
+        var autor = document.getElementById('questsDiv');
+        autor.dataset.user = id;
     };
-    request1.send();
-
+    request1.send();*/
+   /* var autor = document.getElementById('questsDiv');
+    var user_id = parseInt(autor.dataset.user, 10);*/
     let request = new XMLHttpRequest();
     request.open("GET", uri+'GetAll');
     request.onload = function () {
         let qs = "";
         let qsHTML = "";
         qs = JSON.parse(request.responseText);
-
+        var autor = document.getElementById('questsDiv');
+        var user_id = parseInt(autor.dataset.user, 10);
+        var formatter = new Intl.DateTimeFormat("ru");
         if (typeof qs !== "undefined") {
            // getCount(qs.length);
             if (qs.length > 0) {
                 if (qs) {
                     var i;
                     for (i in qs) {
-                        qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span>';
-                        qsHTML += '<button onclick="editQuest(' + qs[i].id_quest  + ')">Изменить</button>';
-                        qsHTML += '<button onclick="deleteQuest(' + qs[i].id_quest + ')">Удалить</button>';
+                        qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date.split('T')[0]  + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span>';
+                        qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
+                        qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button>';
                         //qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
                         let isLoved = false;
-                        if (id != undefined)
+                        if (user_id != -1)//undef id
                         {
                             for (let j in qs[i].userQuest) {
-                                if (qs[i].userQuest[j].user.id == id)
+                                if (qs[i].userQuest[j].id_User_Fk == user_id /*id*/)
                                     isLoved = true;
-                                    //qsHTML += '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' +id+')">Из Избранное</button></div>';
+                            
                             }
-                            qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-star" aria-hidden="true" ></span></button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')"><span class="glyphicon glyphicon-star" aria-hidden="true" style="color: yellow"></span></button></div>';
+                            qsHTML += isLoved == false ? '<button type="button" onclick="addQuestLoved(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-star" aria-hidden="true" ></span></button></div>' : '<button type="button"  onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + user_id + ')"><span class="glyphicon glyphicon-star" aria-hidden="true" style="color: yellow"></span></button></div>';
 
                         }
-
-                        //qsHTML += isLoved == false ? '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>' : '<button onclick="deleteQuestLoved(' + qs[i].id_quest + ',' + id + ')">Из Избранное</button></div>';
+                        else qsHTML += "</div>";
                         if (typeof qs[i].questRiddle !== "undefined" && qs[i].questRiddle.length > 0) 
                           {
                             let j;
@@ -128,14 +153,26 @@ function createQuest()
     var _status = false;
     var _date = new Date();
     var objSel = document.getElementById("createLevelId");
-    var _level = parseInt(objSel.options[objSel.selectedIndex].value,10);
-    var _user = parseInt(document.querySelector("#createUser").value, 10);
+    var _level = parseInt(objSel.options[objSel.selectedIndex].value, 10);
+    var autor = document.getElementById('questsDiv');
+    var _user = autor.dataset.user;
+  //  var _user = parseInt(document.querySelector("#createUser").value, 10);
     //var riddle = parseInt(document.querySelector("#createLevel").value, 10);
     
     var request = new XMLHttpRequest();
     request.open("POST", uri+'Create');
     request.onload = function () {
         getQuests();
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 204) {
+            msg = "Запись добавлена";
+            getQuests();
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
         
     };
     request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
@@ -157,6 +194,16 @@ function createRiddleInQuest()
     request.open("POST", "/api/QR/");
     request.onload = function () {
         getQuests();
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 204) {
+            msg = "Успешно";
+            getQuests();
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
 
     };
     request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
@@ -176,10 +223,10 @@ function editQuest(id)
             if (id === items[i].id_quest)
             {
                 document.querySelector("#edit-id").value = items[i].id_quest;
-                document.querySelector("#edit-status").value = items[i].status;
+               // document.querySelector("#edit-status").value = items[i].status;
                // if (items[i].questRiddle.length) document.querySelector("#edit-number").value = 0;
                 document.querySelector("#edit-thematics").value = items[i].thematics;
-                document.querySelector("#edit-date").value = items[i].date;
+               // document.querySelector("#edit-date").value = items[i].date;
                 getLevels("editLevelId");
                 let objSel = document.getElementById("editLevelId");
                 let j;
@@ -197,14 +244,16 @@ function editQuest(id)
 function updateQuest()
 {
     let objSel = document.getElementById("editLevelId");
+    var autor = document.getElementById('questsDiv');
+    
     const quest = {
         questid: document.querySelector("#edit-id").value,
-        status: document.querySelector("#edit-status").value,
+        status: false,//document.querySelector("#edit-status").value,
         number_of_question: 0,
         thematics: document.querySelector("#edit-thematics").value,
-        date: document.querySelector("#edit-date").value,
+        date: new Date(),
         id_level_Fk: objSel.options[objSel.selectedIndex].value,
-        id_autor_Fk: document.querySelector("#edit-user").value,
+        id_autor_Fk: autor.dataset.user
         //questRiddle: document.querySelector("#edit-questRiddle").value
 
 
@@ -214,6 +263,16 @@ function updateQuest()
     request.onload = function () {
         getQuests();
         closeInput();
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 204) {
+            msg = "Запись отредактирована";
+            getQuests();
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
     };
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify(quest));
@@ -251,7 +310,7 @@ function addQuestLoved(id){
     };
     request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({ id_quest: id, id_user: -1 }));
+    request.send(JSON.stringify({ id_quest: id, id_user: -1 }));///-1 upgrade
 }
 function deleteQuestLoved(id_q, id_u) {
     let request = new XMLHttpRequest();
@@ -271,6 +330,16 @@ function deleteRiddleInQuest(id_q, id_r)
     request.open("DELETE", "/api/QR/");
     request.onload = function () {
         getQuests();
+        var msg = "";
+        if (request.status === 401) {
+            msg = "У вас не хватает прав";
+        } else if (request.status === 204) {
+            msg = "Запись удалена";
+            getQuests();
+        } else {
+            msg = "Неизвестная ошибка";
+        }
+        document.querySelector("#actionMsg").innerHTML = msg;
 
     };
     request.setRequestHeader("Accepts", "application/json;charset=UTF-8");

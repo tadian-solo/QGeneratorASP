@@ -69,8 +69,7 @@
                 <!--<label for="createLevel">Level:</label>
             <input id="createLevel" type="text" />-->
 
-                <label for="createUser">Автор:</label>
-                <input id="createUser" type="text" />
+               
 
                 <!-- <label for="createRiddle">Riddle:</label>-->
                 <!--  <input id="createRiddle" type="text" />-->
@@ -100,18 +99,18 @@
             <form class="my-form">
                 <input type="hidden" id="edit-id">
 
-                <input id="edit-status" type="text" />
+               <!-- <input  id="edit-status" type="text" />-->
 
                 <input id="edit-thematics" type="text" />
 
 
-                <input id="edit-date" type="text" />
+                <!--<input  id="edit-date" type="text" />-->
 
 
                 <select name="edit-Level" size="1" id="editLevelId"></select>
 
 
-                <input id="edit-user" type="text" />
+                <!--<input id="edit-user" type="text" />-->
 
                 <button onclick="updateQuest(); return false;">Сохранить</button>
                 <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
@@ -120,7 +119,7 @@
         <h3>Список квестов:</h3>
         <div id="actionMsg" class="msgClass"></div>
         <div>
-            <div id="questsDiv"></div>
+            <div id="questsDiv" data-user="-1"></div>
         </div>
         <!-- Подключаем jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

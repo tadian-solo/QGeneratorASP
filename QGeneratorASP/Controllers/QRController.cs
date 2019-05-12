@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QGeneratorASP.Models;
@@ -23,6 +24,7 @@ namespace QGeneratorASP.Controllers
             public int id_quest;
             public int id_riddle;
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRQ([FromBody] Ids id/*int id_quest, int id_riddle*/)
         {
@@ -31,6 +33,7 @@ namespace QGeneratorASP.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] Ids id)
         {

@@ -124,13 +124,15 @@ namespace QGeneratorASP.Controllers
         public async Task<IActionResult> LogisAuthenticatedOff()
         {
             User usr = await GetCurrentUserAsync();
-             var message = usr == null ? "Вы Гость. Пожалуйста, выполните вход." : "Вы вошли как: " + usr.UserName;
+            /* var message = usr == null ? "Вы Гость. Пожалуйста, выполните вход." : "Вы вошли как: " + usr.UserName;
              var msg = new
                  {
                      message
                  };
-             return Ok(msg);
-           // return Ok(usr == null ? false : true);
+             return Ok(msg);*/
+            if (usr == null) { return Ok(-1); }
+            return Ok(usr.Id);
+            // return Ok(usr == null ? false : true);
         }
         [HttpPost]
         [Route("api/Account/getUser")]
@@ -140,7 +142,7 @@ namespace QGeneratorASP.Controllers
             User usr = await GetCurrentUserAsync();
             if (usr == null) { return NotFound(); }
             return Ok(usr.Id);
-            // return Ok(usr == null ? false : true);
+           
         }
         private Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);

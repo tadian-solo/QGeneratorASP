@@ -40,15 +40,14 @@ namespace QGeneratorASP.Controllers
         public IEnumerable<Quest> GetAll()
         {
             return _context.Quest.Include(l => l.Level_of_complexity)
-                .Include(u=>u.User)
-                .Include(r=>r.QuestRiddle)
-                      .ThenInclude(r=>r.Riddle).ThenInclude(a => a.Answer)
+                .Include(u => u.User)
+                .Include(r => r.QuestRiddle)
+                      .ThenInclude(r => r.Riddle).ThenInclude(a => a.Answer)
                       .ThenInclude(r => r.Riddle).ThenInclude(a => a.Level_of_complexity)
                       .ThenInclude(r => r.Riddle).ThenInclude(l => l.Type_of_question)
                       .ThenInclude(r => r.Riddle).ThenInclude(u => u.User)
-                .Include(u=>u.UserQuest) 
-                .ThenInclude(u=>u.User)
-                .ThenInclude(u => u.Quest);
+                .Include(u => u.UserQuest);
+               // .ThenInclude(u => u.User); 
         }
  
         public IEnumerable<Level_of_complexity> GetLevels()
@@ -66,7 +65,7 @@ namespace QGeneratorASP.Controllers
             if (q == null) { return NotFound(); }
             return Ok(q);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Quest q)
         {
@@ -78,7 +77,7 @@ namespace QGeneratorASP.Controllers
         }
         
         
-
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Quest q)
         {
