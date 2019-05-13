@@ -5,7 +5,7 @@ var user_id;
 document.addEventListener("DOMContentLoaded", function (event) {
     
     getCurrentUser();
-    getLevels("createLevelId");
+    getLevels("createLevelId"); //
     getQuests();
 });
 /*document.addEventListener("DOMContentLoaded", function (event) {
@@ -16,7 +16,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 function getCurrentUser() {
     let request = new XMLHttpRequest();
    // let id = 0;
-    var user_id;
+    var user;//_id;
+   
+   // var access;
     request.open("POST", "/api/Account/isAuthenticated", true);
     request.onload = function () {
         /*
@@ -24,20 +26,34 @@ function getCurrentUser() {
         myObj = request.responseText !== "" ?
             JSON.parse(request.responseText) : {};
         document.getElementById("msg").innerHTML = myObj.message;*/
-       //var user = document.getElementById('log');
+        var autor = document.getElementById('questsDiv');
         try {
-            user_id = JSON.parse(request.responseText);
+
+            user = JSON.parse(request.responseText);
+            if (user != -1) {
+
+                autor.dataset.user = user.id;
+                autor.dataset.access = user.accessLevel;
+                let elm = document.querySelector("#qDiv");
+                elm.style.display = "block";
+                elm = document.querySelector("#rInQDiv");
+                elm.style.display = "block";
+                //document.getElementById("qDiv").style.display = "block";
+                //document.getElementById("rInQDiv").style.display = "block";
+            }
            // user.innerText = "Выйти";
 
 
         }
 
         catch (err) {
-            user_id = -1;//
+            autor.dataset.user = -1;//
+            autor.dataset.access = false;
             //user.innerText = "Войти";
         }
-        var autor = document.getElementById('questsDiv');
+       /* var autor = document.getElementById('questsDiv');
         autor.dataset.user = user_id;
+        autor.dataset.access = user_access;*/
     };
     request.send();
 }
@@ -89,9 +105,12 @@ function getQuests() {
                 if (qs) {
                     var i;
                     for (i in qs) {
-                        qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date.split('T')[0]  + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' +qs[i].user.userName+' </span></br>';
-                        qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
-                        qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button>';
+                        qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date.split('T')[0] + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' + qs[i].user.userName + ' </span></br>';
+                        if (user_id != -1) {
+
+                            qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
+                            if (autor.dataset.access=="true") qsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteQuest(' + qs[i].id_quest + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button>';
+                        }
                         //qsHTML += '<button onclick="addQuestLoved(' + qs[i].id_quest + ')">В Избранное</button></div>';
                         let isLoved = false;
                         if (user_id != -1)//undef id
@@ -109,8 +128,8 @@ function getQuests() {
                           {
                             let j;
                             for (j in qs[i].questRiddle) {
-                                qsHTML += '<p class="riddle">' + 'Текст загадки: ' + qs[i].questRiddle[j].riddle.text + ' Ответ: ' + qs[i].questRiddle[j].riddle.answer.object +
-                                    '<button class = "del-button" onclick="deleteRiddleInQuest(' + qs[i].id_quest + ',' + qs[i].questRiddle[j].id_Riddle_Fk + ')">&#10006;</button> </p>';
+                                qsHTML += '<p class="riddle">' + 'Текст загадки: ' + qs[i].questRiddle[j].riddle.text + ' Ответ: ' + qs[i].questRiddle[j].riddle.answer.object;
+                                if (user_id != -1) qsHTML +=  '<button class = "del-button" onclick="deleteRiddleInQuest(' + qs[i].id_quest + ',' + qs[i].questRiddle[j].id_Riddle_Fk + ')">&#10006;</button> </p>';
                             }
                          }
                     }

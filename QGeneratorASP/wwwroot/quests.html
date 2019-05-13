@@ -53,7 +53,7 @@
         <p>
             <a href="register.html">Регистрация нового пользователя</a>
         </p>-->
-        <div>
+        <div id="qDiv" style="display:none">
             <h3>Создание нового квеста</h3>
             <form>
                 <!-- <label for="createStatus"> Status:</label>
@@ -79,7 +79,7 @@
             </form>
         </div>
 
-        <div>
+        <div id="rInQDiv" style="display:none">
             <h3>Добавление загадки в квест</h3>
             <form>
 
@@ -120,7 +120,7 @@
         <h3>Список квестов:</h3>
         <div id="actionMsg" class="msgClass"></div>
         <div>
-            <div id="questsDiv" data-user="-1"></div>
+            <div id="questsDiv" data-user="-1" data-access="false"></div>
         </div>
         <!-- Подключаем jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

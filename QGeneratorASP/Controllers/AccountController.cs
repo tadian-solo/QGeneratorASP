@@ -156,20 +156,41 @@ namespace QGeneratorASP.Controllers
                      message
                  };
              return Ok(msg);*/
-            if (usr == null) { return Ok(-1); }
-            return Ok(usr.Id);
-            // return Ok(usr == null ? false : true);
-        }
-        [HttpPost]
-        [Route("api/Account/getUser")]
-        //[ValidateAntiForgeryToken]
-       /* public async Task<IActionResult> GetUser()
-        {
-            User usr = await GetCurrentUserAsync();
-            if (usr == null) { return NotFound(); }
-            return Ok(usr.Id);
            
-        }*/
+
+            if (usr == null) { return Ok(-1); }
+            else
+            {
+                return Ok(usr);
+            }
+           
+           
+        }
+        //[HttpPost]
+        //[Route("api/Account/isAuthenticated")]
+        ////[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> LogisAuthenticatedOff()
+        //{
+        //    User usr = await GetCurrentUserAsync();
+        //    /* var message = usr == null ? "Вы Гость. Пожалуйста, выполните вход." : "Вы вошли как: " + usr.UserName;
+        //     var msg = new
+        //         {
+        //             message
+        //         };
+        //     return Ok(msg);*/
+
+
+        //    if (usr == null) { return Ok(-1); }
+        //    else
+        //    {
+
+
+        //        return Ok(usr.Id);
+        //    }
+
+
+        //}
+
         private Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);
 

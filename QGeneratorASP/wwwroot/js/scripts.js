@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 function getCurrentUser() {
     let request = new XMLHttpRequest();
     // let id = 0;
-    var user_id;
+    var user;
     request.open("POST", "/api/Account/isAuthenticated", true);
     request.onload = function () {
         /*
@@ -25,16 +25,23 @@ function getCurrentUser() {
         myObj = request.responseText !== "" ?
             JSON.parse(request.responseText) : {};
         document.getElementById("msg").innerHTML = myObj.message;*/
-        try {
-            user_id = JSON.parse(request.responseText);
-
-        }
-
-        catch (err) {
-            user_id = -1;//
-        }
         var autor = document.getElementById('riddlesDiv');
-        autor.dataset.user = user_id;
+        try {
+            user = JSON.parse(request.responseText);
+            if (user != -1) {
+                autor.dataset.user = user.id;
+                autor.dataset.access = user.accessLevel;
+                let elm = document.querySelector("#rDiv");
+                elm.style.display = "block";
+            }
+        }
+        catch (err) {
+           // user_id = -1;//
+            autor.dataset.user = -1;//
+            autor.dataset.access = false;
+        }
+       // var autor = document.getElementById('riddlesDiv');
+        //autor.dataset.user = user_id;
     };
     request.send();
 }
@@ -55,7 +62,8 @@ function getRiddles() {
         let rs = "";
         let rsHTML = "";
         rs = JSON.parse(request.responseText);
-
+        var autor = document.getElementById('riddlesDiv');
+        var user_id = parseInt(autor.dataset.user, 10);
         if (typeof rs !== "undefined") {
             //getCount(rs.length);
             if (rs.length > 0) {
@@ -64,8 +72,8 @@ function getRiddles() {
                     for (i in rs) {
                         rsHTML += '<div class="blogText"><span>' + 'Загадка №' + rs[i].id_riddle + ' : ' + 'Статус: ' + rs[i].status + ' Теxt: ' + rs[i].text + ' Desc: ' + rs[i].description + ' Уровень сложности: ' + rs[i].level_of_complexity.name_level + ' Type: ' + rs[i].type_of_question.name + ' Answer: ' + rs[i].answer.object + ' Автор: ' + rs[i].user.userName + ' </span></br>';
                        // rsHTML +='<span>'+
-                        rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
-                        rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button></div>';
+                        if (user_id != -1) rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="editRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
+                        if (user_id != -1) rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="deleteRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button></div>';
                         
                     }
                 }
