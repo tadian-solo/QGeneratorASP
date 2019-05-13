@@ -169,7 +169,7 @@ function createQuest()
         getQuests();
         var msg = "";
         if (request.status === 401) {
-            msg = "У вас не хватает прав";
+            msg = "У вас не хватает прав на создание";
         } else if (request.status === 201) {
             msg = "Запись добавлена";
             getQuests();
@@ -269,7 +269,7 @@ function updateQuest()
         closeInput();
         var msg = "";
         if (request.status === 401) {
-            msg = "У вас не хватает прав";
+            msg = "У вас не хватает прав на редактирование";
         } else if (request.status === 204) {
             msg = "Запись отредактирована";
             getQuests();
@@ -289,7 +289,7 @@ function deleteQuest(id) {
         // Обработка кода ответа
         var msg = "";
         if (request.status === 401) {
-            msg = "У вас не хватает прав";
+            msg = "У вас не хватает прав на удаление";
         } else if (request.status === 204) {
             msg = "Запись удалена";
             getQuests();

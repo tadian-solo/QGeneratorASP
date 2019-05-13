@@ -36,7 +36,9 @@ function logIn() {
                     // ul[0].appendChild(li);
                     mydiv.appendChild(li);
                 }
+            
             }
+            else window.location.href = '/index.html'; 
             document.getElementById("myPassword").value = "";
         }
     };
@@ -57,7 +59,7 @@ function logOff() {
             mydiv.removeChild(mydiv.firstChild);
         }
         document.getElementById("msg").innerHTML = msg.message;
-        getQuests();
+         window.location.href = '/index.html';  //getQuests();
     };
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send();
@@ -80,6 +82,7 @@ function Register() {
     // Обработка ответа
     request.onload = function () {
         ParseResponse(this);
+        //
     };
     // Запрос на сервер
     request.send(JSON.stringify({
@@ -101,6 +104,7 @@ function ParseResponse(e) {
     // Обработка ответа от сервера
     let response = JSON.parse(e.responseText);
     document.querySelector("#msg").innerHTML = response.message;
+    if (typeof response.error == "undefined") window.location.href = '/index.html'; 
     // Вывод сообщений об ошибках
     if (response.error.length > 0) {
         for (var i = 0; i < response.error.length; i++) {
@@ -110,6 +114,7 @@ function ParseResponse(e) {
             ul.appendChild(li);
         }
     }
+    else window.location.href = '/index.html'; 
     // Очистка полей паролей
     document.querySelector("#password").value = "";
     document.querySelector("#passwordConfirm").value = "";
