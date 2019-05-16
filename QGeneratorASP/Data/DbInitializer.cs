@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace QGeneratorASP.Data
 {
     public class DbInitializer
-    {
+    { 
+        
         public static void Initialize(GQ context)
         {
             context.Database.EnsureCreated();
@@ -18,11 +19,11 @@ namespace QGeneratorASP.Data
             }
             var lvls = new Level_of_complexity[]
             {
-                new Level_of_complexity{Name_level="very easy"},
-                new Level_of_complexity{Name_level="easy"},
-                new Level_of_complexity{Name_level="middle"},
-                new Level_of_complexity{Name_level="hard"},
-                new Level_of_complexity{Name_level="very hard"},
+                new Level_of_complexity{Name_level="легче легкого"},
+                new Level_of_complexity{Name_level="легко"},
+                new Level_of_complexity{Name_level="средне"},
+                new Level_of_complexity{Name_level="сложно"},
+                new Level_of_complexity{Name_level="очень сложно"},
 
             };
             foreach(var ls in lvls)
@@ -31,9 +32,12 @@ namespace QGeneratorASP.Data
             }
             var answs = new Answer[]
             {
-                new Answer{Object= "table"},
-                new Answer{Object= "window"},
-                new Answer{Object= "chair"}
+                new Answer{Object= "стол"},
+                new Answer{Object= "окно"},
+                new Answer{Object= "кресло"},
+                new Answer{Object= "холодильник"},
+                new Answer{Object= "балкон"},
+              
             };
             foreach (var ls in answs)
             {
@@ -41,9 +45,9 @@ namespace QGeneratorASP.Data
             }
             var tps = new Type_of_question[]
             {
-                new Type_of_question{ Name="riddle"},
-                new Type_of_question{ Name="crossword"},
-                new Type_of_question{ Name="rebus"}
+                new Type_of_question{ Name="загадка"},
+                new Type_of_question{ Name="анаграмма"},
+                new Type_of_question{ Name="шифр"}
             };
             foreach (var ls in tps)
             {
@@ -58,7 +62,7 @@ namespace QGeneratorASP.Data
                 {
                     Status = true,
                     Date = DateTime.Now,
-                    Thematics = "horror",
+                    Thematics = "новогодний квест",
                     User = context.User.FirstOrDefault(),
                     Level_of_complexity = lvls[0]
                 },
@@ -74,7 +78,15 @@ namespace QGeneratorASP.Data
                 {
                     Status = true,
                     Date = DateTime.Now,
-                    Thematics = "detective",
+                    Thematics = "детектив в стиле Шерлока Холмса",
+                    User = context.User.FirstOrDefault(),
+                    Level_of_complexity = lvls[2]
+                },
+                 new Quest
+                {
+                    Status = true,
+                    Date = DateTime.Now,
+                    Thematics = "квест по мотивам славянской мифологии",
                     User = context.User.FirstOrDefault(),
                     Level_of_complexity = lvls[2]
                 }

@@ -28,11 +28,12 @@ namespace QGeneratorASP.Models
             {
                 entity.HasKey(e => e.Id_answer);
               
-                entity.Property(e => e.Note).HasColumnType("text");
+                entity.Property(e => e.Note).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Object)
                     .IsRequired()
                     .HasMaxLength(100)
+                    .HasColumnType("nvarchar(1000)")
                     .IsUnicode(false);
             });
 
@@ -47,10 +48,11 @@ namespace QGeneratorASP.Models
                 entity.Property(e => e.Name_level)
                     .IsRequired()
                     .HasColumnName("Name_level")
+                    .HasColumnType("nvarchar(1000)")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Note).HasColumnType("text");
+                entity.Property(e => e.Note).HasColumnType("nvarchar(1000)");
             });
 
             modelBuilder.Entity<Quest>(entity =>
@@ -133,7 +135,7 @@ namespace QGeneratorASP.Models
 
                 entity.Property(e => e.Description)
                     .IsRequired()
-                    .HasColumnType("text");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Id_Answer_FK).HasColumnName("Id_Answer_FK");
 
@@ -145,7 +147,7 @@ namespace QGeneratorASP.Models
 
                 entity.Property(e => e.Text)
                     .IsRequired()
-                    .HasColumnType("text");
+                   .HasColumnType("nvarchar(1000)");
 
                 entity.HasOne(d => d.Answer)
                     .WithMany(p => p.Riddle)
@@ -180,7 +182,7 @@ namespace QGeneratorASP.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false).HasColumnType("nvarchar(1000)");
 
                 
             });

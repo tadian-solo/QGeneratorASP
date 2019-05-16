@@ -72,7 +72,7 @@
                 <!-- <label for="createRiddle">Riddle:</label>-->
                 <!--  <input id="createRiddle" type="text" />-->
 
-                <button onclick="createQuest(); return false;">Создать</button>
+                <button onclick="quests.createQuest(); return false;">Создать</button>
             </form>
         </div>
         <div id="editDiv" style="display:none">
@@ -93,8 +93,8 @@
 
                 <!--<input id="edit-user" type="text" />-->
 
-                <button onclick="updateQuest(); return false;">Сохранить</button>
-                <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
+                <button onclick="quests.updateQuest(); return false;">Сохранить</button>
+                <a onclick="quests.closeInput()" aria-label="Закрыть">&#10006;</a>
             </form>
         </div>
         <div id="rInQDiv" data-edit="false" style="display:none">
@@ -120,7 +120,7 @@
                 <!--<label for="createTextR">Текст загадки:</label>
                 <input id="createTextR" type="text" />-->
 
-                <button onclick="createRiddleInQuest(); return false;" title="Не забудьте сначала создать сам квест">Добавить</button>
+                <button onclick="quests.createRiddleInQuest(); return false;" title="Не забудьте сначала создать сам квест">Добавить</button>
             </form>
         </div>
 

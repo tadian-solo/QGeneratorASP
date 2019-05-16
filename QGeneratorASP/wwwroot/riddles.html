@@ -58,7 +58,7 @@
                 <!-- <label for="createRiddle">Riddle:</label>-->
                 <!--  <input id="createRiddle" type="text" />-->
 
-                <button onclick="createRiddle(); return false;">Добавить</button>
+                <button onclick="riddles.createRiddle(); return false;">Добавить</button>
             </form>
         </div>
 
@@ -84,8 +84,8 @@
 
                 <!--<input id="edit-user" type="text" />-->
 
-                <button onclick="updateRiddle(); return false;">Сохранить</button>
-                <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
+                <button onclick="riddles.updateRiddle(); return false;">Сохранить</button>
+                <a onclick="riddles.closeInput()" aria-label="Закрыть">&#10006;</a>
             </form>
         </div>
 
