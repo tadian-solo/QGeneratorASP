@@ -1,11 +1,60 @@
 /*jshint esversion: 6 */
 const uri = "/api/quest/";
 let items = null;
-var user_id;
+//модуль "текущий пользователь"
+var user =
+{
+    getCurrentUser: function() {
+        let request = new XMLHttpRequest();
+        // let id = 0;
+        var user;//_id;
+
+        // var access;
+        request.open("POST", "/api/Account/isAuthenticated", true);
+        request.onload = function () {
+            /*
+            let myObj = "";
+            myObj = request.responseText !== "" ?
+                JSON.parse(request.responseText) : {};
+            document.getElementById("msg").innerHTML = myObj.message;*/
+            var autor = document.getElementById('questsDiv');
+            try {
+
+                user = JSON.parse(request.responseText);
+                if (user != -1) {
+
+                    autor.dataset.user = user.id;
+                    autor.dataset.access = user.accessLevel;
+                    let elm = document.querySelector("#qDiv");
+                    elm.style.display = "block";
+                    elm = document.querySelector("#rInQDiv");
+                    elm.style.display = "block";
+                    //document.getElementById("qDiv").style.display = "block";
+                    //document.getElementById("rInQDiv").style.display = "block";
+                }
+                // user.innerText = "Выйти";
+
+
+            }
+
+            catch (err) {
+                autor.dataset.user = -1;//
+                autor.dataset.access = false;
+                //user.innerText = "Войти";
+            }
+            /* var autor = document.getElementById('questsDiv');
+             autor.dataset.user = user_id;
+             autor.dataset.access = user_access;*/
+        };
+        request.send();
+    }
+}
 document.addEventListener("DOMContentLoaded", function (event) {
     
-    getCurrentUser();
+    user.getCurrentUser();
     getLevels("createLevelId"); //
+    GetComboboxLevel();
+   
     getQuests();
 });
 /*document.addEventListener("DOMContentLoaded", function (event) {
@@ -13,50 +62,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });*/
 
 //var user_id;
-function getCurrentUser() {
-    let request = new XMLHttpRequest();
-   // let id = 0;
-    var user;//_id;
-   
-   // var access;
-    request.open("POST", "/api/Account/isAuthenticated", true);
-    request.onload = function () {
-        /*
-        let myObj = "";
-        myObj = request.responseText !== "" ?
-            JSON.parse(request.responseText) : {};
-        document.getElementById("msg").innerHTML = myObj.message;*/
-        var autor = document.getElementById('questsDiv');
-        try {
 
-            user = JSON.parse(request.responseText);
-            if (user != -1) {
-
-                autor.dataset.user = user.id;
-                autor.dataset.access = user.accessLevel;
-                let elm = document.querySelector("#qDiv");
-                elm.style.display = "block";
-                elm = document.querySelector("#rInQDiv");
-                elm.style.display = "block";
-                //document.getElementById("qDiv").style.display = "block";
-                //document.getElementById("rInQDiv").style.display = "block";
-            }
-           // user.innerText = "Выйти";
-
-
-        }
-
-        catch (err) {
-            autor.dataset.user = -1;//
-            autor.dataset.access = false;
-            //user.innerText = "Войти";
-        }
-       /* var autor = document.getElementById('questsDiv');
-        autor.dataset.user = user_id;
-        autor.dataset.access = user_access;*/
-    };
-    request.send();
-}
 function getCount(data) {
     const el = document.querySelector("#counter");
     let name = "Количество квестов:";
@@ -66,30 +72,107 @@ function getCount(data) {
         el.innerText = "Квестов еще нет";
     }
 }
+function GetComboboxLevel() {
+    var comboLevel = document.getElementById('createLevelIdR');
+    comboLevel.addEventListener("change", GetComboboxType);
+    //get
+    let request = new XMLHttpRequest();
+    request.open("GET", "/api/riddle/" + "GetLevels");
+    request.onload = function () {
+        let ls = "";
+        ls = JSON.parse(request.responseText);
+        if (typeof ls !== "undefined") {
+
+            if (ls.length > 0 && comboLevel.options.length < ls.length) {
+                if (ls) {
+                    var i;
+                    for (i in ls) {
+                        comboLevel.options[comboLevel.options.length] = new Option(ls[i].name_level, ls[i].id_level);
+                        //lsHTML += 
+
+                    }
+                }
+            }
+            GetComboboxType();
+            //document.querySelector("#createLevel").innerHTML = lsHTML;
+        }
+    };
+    request.send();
+    
+    //comboLevel.addEventListener("change", GetComboboxType);
+    
+}
+function GetComboboxType() {
+     
+    var comboLevel = document.getElementById('createTypeIdR');
+    comboLevel.addEventListener("change", GetComboboxAnswer);
+    var cL = document.getElementById('createLevelIdR');
+    //get
+    let request = new XMLHttpRequest();
+    request.open("GET", "/api/riddle/" + "GetTypesForLevel/" + cL.options[cL.selectedIndex].value);
+    request.onload = function () {
+        let ls = "";
+        ls = JSON.parse(request.responseText);
+        if (typeof ls !== "undefined") {
+            comboLevel.options.length = 0;
+
+            if (ls.length > 0 && comboLevel.options.length < ls.length) {
+                if (ls) {
+                    var i;
+                    for (i in ls) {
+                        comboLevel.options[comboLevel.options.length] = new Option(ls[i].name, ls[i].id_type);
+                        //lsHTML += 
+
+                    }
+                }
+            }
+            
+            //document.querySelector("#createLevel").innerHTML = lsHTML;
+        } GetComboboxAnswer();
+    };
+    request.send();
+  
+    //comboLevel.addEventListener("change", GetComboboxAnswer);
+    
+
+}
+function GetComboboxAnswer() {
+    //get
+    var comboLevel = document.getElementById('createAnswerIdR');
+    var cL = document.getElementById('createLevelIdR');
+    var cT = document.getElementById('createTypeIdR');
+    //get
+    comboLevel.options.length = 0;
+    let request = new XMLHttpRequest();
+    request.open("GET", "/api/riddle/" + "GetAnswersForLevelAndType?id=" + cT.options[cT.selectedIndex].value + "&level=" + cL.options[cL.selectedIndex].value);
+    request.onload = function () {
+        let ls = "";
+        ls = JSON.parse(request.responseText);
+       
+        if (typeof ls !== "undefined") {
+           // comboLevel.options.length = 0;
+
+            if (ls.length > 0 && comboLevel.options.length < ls.length) {
+                if (ls) {
+                    var i;
+                    for (i in ls) {
+                        comboLevel.options[comboLevel.options.length] = new Option(ls[i].object, ls[i].id_answer)
+                        //lsHTML += 
+
+                    }
+                }
+            }
+
+            //document.querySelector("#createLevel").innerHTML = lsHTML;
+        }
+    };
+    request.send();
+
+
+}
 
 function getQuests() {
-  /*  let request = new XMLHttpRequest();
-    request.open("GET", '/api/QR/');*/
-   /* let id = 0;
-    let request1 = new XMLHttpRequest();
-    request1.open("POST", "/api/Account/getUser", true);
-    request1.onload = function () {
-        try
-        {
-            id = JSON.parse(request1.responseText);
-            
-        }
-
-        catch (err) 
-        {
-            id = undefined;
-        }
-        var autor = document.getElementById('questsDiv');
-        autor.dataset.user = id;
-    };
-    request1.send();*/
-   /* var autor = document.getElementById('questsDiv');
-    var user_id = parseInt(autor.dataset.user, 10);*/
+  
     let request = new XMLHttpRequest();
     request.open("GET", uri+'GetAll');
     request.onload = function () {
@@ -103,6 +186,9 @@ function getQuests() {
            // getCount(qs.length);
             if (qs.length > 0) {
                 if (qs) {
+                    let elm = document.querySelector("#id_quest");
+                    elm.innerText = qs[qs.length - 1].id_quest;
+                    elm.value = qs[qs.length - 1].id_quest;
                     var i;
                     for (i in qs) {
                         qsHTML += '<div class="quest"><span>' + 'Квест №' + qs[i].id_quest + ' : ' + 'Статус: ' + qs[i].status + ' Тематика: ' + qs[i].thematics + ' Дата: ' + qs[i].date.split('T')[0] + ' Уровень сложности: ' + qs[i].level_of_complexity.name_level + ' Автор: ' + qs[i].user.userName + ' </span></br>';
@@ -208,37 +294,65 @@ function createQuest()
         id_autor_Fk: _user,
         date: _date
     }));
-    }
-function createRiddleInQuest()
-{
-    var _id_quest = document.querySelector("#id_quest").value;
-    var _id_riddle = document.querySelector("#id_riddle").value;
-    var request = new XMLHttpRequest();
-    request.open("POST", "/api/QR/");
-    request.onload = function () {
+}
+function createRiddle(_id_quest,  _id_riddle) {
+    var request2 = new XMLHttpRequest();
+    request2.open("POST", "/api/QR/");
+    request2.onload = function () {
+    getQuests();
+    var msg = "";
+    if (request2.status === 401) {
+        msg = "У вас не хватает прав";
+    } else if (request2.status === 200) {
+        msg = "Успешно";
         getQuests();
-      /*  var msg = "";
-        if (request.status === 401) {
-            msg = "У вас не хватает прав";
-        } else if (request.status === 201) {
-            msg = "Успешно";
-            getQuests();
-        } else {
-            msg = "Неизвестная ошибка";
-        }*/
-        document.querySelector("#actionMsg").innerHTML = msg;
+    } else {
+        msg = "Неизвестная ошибка";
+    }
+    document.querySelector("#actionMsg").innerHTML = msg;
 
-    };
-    request.setRequestHeader("Accepts", "application/json;charset=UTF-8");
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({ id_quest: _id_quest, id_riddle: _id_riddle}));
+};
+request2.setRequestHeader("Accepts", "application/json;charset=UTF-8");
+request2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+request2.send(JSON.stringify({ id_quest: _id_quest, id_riddle: _id_riddle }));
 
 }
+function createRiddleInQuest() {
+    var _id_quest = document.querySelector("#id_quest").value;
+    var _id_riddle = document.querySelector("#id_riddle").value;
+   
+        if (_id_riddle == "") {
+            var objSel = document.getElementById("createLevelIdR");
+            var _level = parseInt(objSel.options[objSel.selectedIndex].value, 10);
+            objSel = document.getElementById("createTypeIdR");
+            var _type = parseInt(objSel.options[objSel.selectedIndex].value, 10);
+            objSel = document.getElementById("createAnswerIdR");
+            var _answer = parseInt(objSel.options[objSel.selectedIndex].value, 10);
+
+            var request = new XMLHttpRequest();
+            request.open("GET", "/api/riddle/" + "GetRiddle?id_level=" + _level + "&id_type=" + _type + "&id_answer=" + _answer);
+            request.onload = function () {
+                let ls = "";
+                ls = JSON.parse(request.responseText);
+                if (typeof ls.id_riddle !== "undefined") _id_riddle = ls.id_riddle;
+                createRiddle(_id_quest, _id_riddle);
+            }
+            request.send();
+    }
+    else createRiddle(_id_quest, _id_riddle);
+
+}
+    
 
 function editQuest(id)
 {
+    
     let elm = document.querySelector("#editDiv");
     elm.style.display = "block";
+    elm.dataset.edit = "true";
+    elm = document.querySelector("#id_quest");
+    elm.innerText = id;
+    elm.value = id;
     if (items) {
         let i;
         for (i in items)

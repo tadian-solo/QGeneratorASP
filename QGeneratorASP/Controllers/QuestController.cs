@@ -54,7 +54,7 @@ namespace QGeneratorASP.Controllers
         {
             return _context.Level_of_complexity;
         }
-
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuest([FromRoute] int id)
         {
@@ -104,6 +104,11 @@ namespace QGeneratorASP.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.Quest.Find(id);
             if (item == null) { return NotFound(); }
+            var qs = _context.QuestRiddle;
+            foreach(var q in qs )
+            {
+                if (q.Id_Quest_Fk == id) _context.QuestRiddle.Remove(_context.QuestRiddle.Find(q.Id_Quest_Fk, q.Id_Riddle_Fk));
+            }
             _context.Quest.Remove(item);
             _logger.LogInformation("Delete quest");
             await _context.SaveChangesAsync();

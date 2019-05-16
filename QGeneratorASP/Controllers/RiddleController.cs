@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,6 +75,38 @@ namespace QGeneratorASP.Controllers
         public IEnumerable<Type_of_question> GetTypes()
         {
             return _context.Type_of_question;
+        }
+        [HttpGet("{id}")]
+        public List<Type_of_question> GetTypesForLevel([FromRoute] int id)
+        {
+            var ts = new List<Type_of_question>();
+            var rs = _context.Riddle.Where(i => (i.Id_Level_FK == id));
+            foreach (var p in rs)
+            {
+                if (!ts.Contains(p.Type_of_question)) ts.Add(_context.Type_of_question.Find(p.Id_Type_FK));
+            }
+            return ts;
+        }
+        [HttpGet]
+        public List<Answer> GetAnswersForLevelAndType( int id,  int level)
+        {
+            
+                List<Answer> answers = new List<Answer>();
+                var rs = _context.Riddle.Where(i => (i.Id_Type_FK == id) && (i.Id_Level_FK == level));
+                foreach (var p in rs)
+                {
+                    if (!answers.Contains(p.Answer)) answers.Add(_context.Answer.Find(p.Id_Answer_FK));
+                }
+                return answers;
+           
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetRiddle(int id_level, int id_type, int id_answer)
+        {
+
+            var q= await _context.Riddle.Where(r => (r.Id_Level_FK == id_level) && (r.Id_Type_FK == id_type) && (r.Id_Answer_FK == id_answer)).FirstOrDefaultAsync();
+            if (q == null) { return NotFound(); }
+            return Ok(q); 
         }
         public IEnumerable<Answer> GetAnswers()
         {

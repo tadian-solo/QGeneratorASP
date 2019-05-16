@@ -32,27 +32,27 @@
 
         </div>
         <!--<h3>Вход для зарегистрированных пользователей</h3>
-        <form>
+    <form>
 
-            <div>
-                <label for="Login">Login: </label><br />
-                <input type="text" id="Login" name="Login">
-            </div>
-            <div>
-                <label for="Password">Пароль: </label><br />
-                <input type="password" id="Password" name="Password">
-            </div>
-            <div class="msgClass">
-                <div id="msgAuth"></div>
-                <div id="msg"></div>
-                <ul id="formError"></ul>
-            </div>
-        </form>
-        <button id="loginBtn">Войти</button>
-        <button id="logoffBtn">Выйти</button>
-        <p>
-            <a href="register.html">Регистрация нового пользователя</a>
-        </p>-->
+        <div>
+            <label for="Login">Login: </label><br />
+            <input type="text" id="Login" name="Login">
+        </div>
+        <div>
+            <label for="Password">Пароль: </label><br />
+            <input type="password" id="Password" name="Password">
+        </div>
+        <div class="msgClass">
+            <div id="msgAuth"></div>
+            <div id="msg"></div>
+            <ul id="formError"></ul>
+        </div>
+    </form>
+    <button id="loginBtn">Войти</button>
+    <button id="logoffBtn">Выйти</button>
+    <p>
+        <a href="register.html">Регистрация нового пользователя</a>
+    </p>-->
         <div id="qDiv" style="display:none">
             <h3>Создание нового квеста</h3>
             <form>
@@ -69,38 +69,18 @@
                 <select name="createLevel" size="1" id="createLevelId"></select>
                 <!--<label for="createLevel">Level:</label>
             <input id="createLevel" type="text" />-->
-
-               
-
                 <!-- <label for="createRiddle">Riddle:</label>-->
                 <!--  <input id="createRiddle" type="text" />-->
 
-                <button onclick="createQuest(); return false;">Добавить</button>
+                <button onclick="createQuest(); return false;">Создать</button>
             </form>
         </div>
-
-        <div id="rInQDiv" style="display:none">
-            <h3>Добавление загадки в квест</h3>
-            <form>
-
-                <label for="id_quest">Квест:</label>
-                <input id="id_quest" type="text" />
-
-                <label for="id_riddle">Загадка:</label>
-                <input id="id_riddle" type="text" />
-
-
-
-                <button onclick="createRiddleInQuest(); return false;">Добавить</button>
-            </form>
-        </div>
-
         <div id="editDiv" style="display:none">
             <h3>Редактирование</h3>
             <form class="my-form">
                 <input type="hidden" id="edit-id">
 
-               <!-- <input  id="edit-status" type="text" />-->
+                <!-- <input  id="edit-status" type="text" />-->
 
                 <input id="edit-thematics" type="text" />
 
@@ -117,6 +97,34 @@
                 <a onclick="closeInput()" aria-label="Закрыть">&#10006;</a>
             </form>
         </div>
+        <div id="rInQDiv" data-edit="false" style="display:none">
+            <h3>Добавление загадки в квест</h3>
+            <form>
+
+                <label for="id_quest">Квест:</label>
+                <input id="id_quest" type="text" />
+
+                <label>Введите номер загадки...:</label>
+                <label for="id_riddle">Загадка:</label>
+                <input id="id_riddle" type="text"/> <br/>
+                <label>...или воспользуйтесь фильтром для поиска:</label><br/>
+                <label for="createLevelR">Уровень:</label>
+                <select name="createLevelR" size="1" id="createLevelIdR"></select>
+
+                <label for="createTypeR">Тип:</label>
+                <select name="createTypeR" size="1" id="createTypeIdR"></select>
+
+                <label for="createAnswerR">Ответ:</label>
+                <select name="createAnswerR" size="1" id="createAnswerIdR"></select>
+
+                <!--<label for="createTextR">Текст загадки:</label>
+                <input id="createTextR" type="text" />-->
+
+                <button onclick="createRiddleInQuest(); return false;" title="Не забудьте сначала создать сам квест">Добавить</button>
+            </form>
+        </div>
+
+
         <h3>Список квестов:</h3>
         <div id="actionMsg" class="msgClass"></div>
         <div>

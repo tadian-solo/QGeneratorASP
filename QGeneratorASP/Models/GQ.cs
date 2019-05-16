@@ -93,12 +93,12 @@ namespace QGeneratorASP.Models
                 entity.HasOne(d => d.Quest)
                     .WithMany(p => p.QuestRiddle)
                     .HasForeignKey(d => d.Id_Quest_Fk)
-                   // .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Quest_Riddle_Quest");
 
                 entity.HasOne(d => d.Riddle)
                     .WithMany(p => p.QuestRiddle)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                   // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasForeignKey(d => d.Id_Riddle_Fk)//set null?
                     .HasConstraintName("FK_Quest_Riddle_Riddle");
             });
