@@ -30,6 +30,7 @@ namespace QGeneratorASP.Controllers
         {
             if (_context.Riddle.Find(id.id_riddle)!=null&& _context.Quest.Find(id.id_quest)!=null)
             _context.QuestRiddle.Add(new QuestRiddle { Riddle = _context.Riddle.Find(id.id_riddle), Quest = _context.Quest.Find(id.id_quest) });
+            Log.WriteLog("QR:CreateRQ", "Добавлена новая запись в таблицу QuestRiddle");
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -40,9 +41,10 @@ namespace QGeneratorASP.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.QuestRiddle.Find(id.id_quest, id.id_riddle);
             
-            if (item == null) { return NotFound(); }
+            if (item == null) { Log.WriteLog("QR:DeleteRQ", "Удаление не удалось QuestRiddle");  return NotFound(); }
             _context.QuestRiddle.Remove(item);
             await _context.SaveChangesAsync();
+            Log.WriteLog("QR:DeleteRQ", "Удаление QuestRiddle");
             return NoContent();
         }
     }

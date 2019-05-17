@@ -129,6 +129,7 @@ namespace QGeneratorASP.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             _context.Riddle.Add(q);
             await _context.SaveChangesAsync();
+            Log.WriteLog("Riddle:Create", "Создана новая загадка");
             return CreatedAtAction("GetRiddle", new { id = q.Id_riddle }, q);
         }
         [Authorize]
@@ -140,7 +141,6 @@ namespace QGeneratorASP.Controllers
             if (item == null) { return NotFound(); }
             item.Text = q.Text;
             item.Description = q.Description;
-           
             item.Answer = _context.Answer.Find(q.Id_Answer_FK);
             item.Level_of_complexity = _context.Level_of_complexity.Find(q.Id_Level_FK);
             item.Type_of_question = _context.Type_of_question.Find(q.Id_Type_FK);
@@ -148,6 +148,7 @@ namespace QGeneratorASP.Controllers
             item.Status = item.User.AccessLevel;
             item.QuestRiddle = q.QuestRiddle;
             _context.Riddle.Update(item);
+            Log.WriteLog("Riddle:Update", "Загадка №" + item.Id_riddle + "обовлена");
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -159,6 +160,7 @@ namespace QGeneratorASP.Controllers
             var item = _context.Riddle.Find(id);
             if (item == null) { return NotFound(); }
             _context.Riddle.Remove(item);
+            Log.WriteLog("Riddle:Delete", "Загадка №" + item.Id_riddle + "удалена");
             await _context.SaveChangesAsync();
             return NoContent();
         }

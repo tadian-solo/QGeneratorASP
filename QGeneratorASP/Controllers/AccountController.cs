@@ -42,6 +42,7 @@ namespace QGeneratorASP.Controllers
                     {
                         message = "Добавлен новый пользователь: " + user.UserName
                     };
+                    Log.WriteLog("Account:Register", "Добавлен новый пользователь " + user.UserName);
                     return Ok(msg);
                 }
                 else
@@ -55,6 +56,7 @@ namespace QGeneratorASP.Controllers
                         message = "Пользователь не добавлен.",
                         error = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
                     };
+                    Log.WriteLog("Account:Register", "Попытка добавить пользователя не удалась");
                     return Ok(errorMsg);
                 }
             }
@@ -65,6 +67,7 @@ namespace QGeneratorASP.Controllers
                     message = "Неверные входные данные.",
                     error = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
                 };
+                Log.WriteLog("Account:Register", "Неверные входные данные.");
                 return Ok(errorMsg);
             }
         }
@@ -84,6 +87,7 @@ namespace QGeneratorASP.Controllers
                     {
                         message = "Выполнен вход пользователем: " + model.Login
                     };
+                    Log.WriteLog("Account:Login", "Выполнен вход пользователем: " + model.Login);
                     return Ok(msg);
                 }
                 else

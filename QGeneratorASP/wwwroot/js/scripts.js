@@ -35,12 +35,18 @@ var collections = {
     types: "",
     levels: "",
     answers: "",
-    init: function() {
+    init: function () {
+        
         let request = new XMLHttpRequest();
         request.open("GET", uri + "GetTypes");
         request.onload = function () {
-            collections.types = JSON.parse(request.responseText);
-            collections.getTypes("createTypeId");
+            try {
+                collections.types = JSON.parse(request.responseText);
+                collections.getTypes("createTypeId");
+            }
+            catch (err) {
+
+            }
         }
         request.send();
         let request2 = new XMLHttpRequest();

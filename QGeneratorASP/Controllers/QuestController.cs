@@ -72,6 +72,7 @@ namespace QGeneratorASP.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             _context.Quest.Add(q);
             _logger.LogInformation("Create quest");
+            Log.WriteLog("Quest:Create", "Создан новый квест");
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetQuest", new { id = q.Id_quest }, q);
         }
@@ -94,6 +95,7 @@ namespace QGeneratorASP.Controllers
             item.QuestRiddle = q.QuestRiddle;
             _context.Quest.Update(item);
             _logger.LogInformation("Update quest");
+            Log.WriteLog("Quest:Update", "Квест №"+ item.Id_quest + "обновлен");
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -109,8 +111,15 @@ namespace QGeneratorASP.Controllers
             {
                 if (q.Id_Quest_Fk == id) _context.QuestRiddle.Remove(_context.QuestRiddle.Find(q.Id_Quest_Fk, q.Id_Riddle_Fk));
             }
+            try { 
             _context.Quest.Remove(item);
             _logger.LogInformation("Delete quest");
+             Log.WriteLog("Quest:Delete", "Квест №" + item.Id_quest + "удален");
+            }
+            catch (Exception err)
+            {
+                _logger.LogInformation(err.Message);
+            }
             await _context.SaveChangesAsync();
             return NoContent();
         }
