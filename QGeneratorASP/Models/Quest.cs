@@ -16,8 +16,8 @@ namespace QGeneratorASP.Models
         }
         [Key]
         public int Id_quest { get; set; }
-        public bool Status { get; set; }
-        public int Number_of_questions { get; set; }
+        public bool Status { get; set; }//тру для админов, фолс для остальных
+        public int Number_of_questions { get; set; }//число вопросов
         [Column(TypeName = "text")]
         public string Thematics { get; set; }
         public int Id_level_Fk { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class Answer
+    public class Answer  // класс-справочник ответов
     {
         public Answer()
         {
@@ -19,10 +19,10 @@ namespace QGeneratorASP.Models
 
         [Required]
         [StringLength(100)]
-        public string Object { get; set; }
+        public string Object { get; set; }//загаданный предмет
 
         [Column(TypeName = "text")]
-        public string Note { get; set; }
+        public string Note { get; set; }//комментарий
 
         public virtual ICollection<Riddle> Riddle { get; set; }
     }

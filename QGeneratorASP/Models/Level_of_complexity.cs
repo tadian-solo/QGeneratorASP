@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class Level_of_complexity
+    public class Level_of_complexity//справочник уровней
     {
         public Level_of_complexity()
         {
@@ -23,7 +23,7 @@ namespace QGeneratorASP.Models
         public string Name_level { get; set; }
 
         [Column(TypeName = "text")]
-        public string Note { get; set; }
+        public string Note { get; set; }//комментарий
 
         public virtual ICollection<Quest> Quest { get; set; }
 

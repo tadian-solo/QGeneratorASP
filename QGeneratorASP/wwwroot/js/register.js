@@ -1,4 +1,5 @@
 ﻿const uri = "/api/account/Register";
+//модуль формы входа/регистрации
 var loginForm = {
     ParseResponse: function(e) {
         // Очистка контейнера вывода сообщений

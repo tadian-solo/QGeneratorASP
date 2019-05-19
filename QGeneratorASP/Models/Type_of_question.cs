@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class Type_of_question
+    public class Type_of_question //справочник тип вопроса
     {
         public Type_of_question()
         {
@@ -18,7 +18,7 @@ namespace QGeneratorASP.Models
 
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string Name { get; set; }//название
 
 
         public virtual ICollection<Riddle> Riddle { get; set; }

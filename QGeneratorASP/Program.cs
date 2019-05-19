@@ -23,23 +23,22 @@ namespace QGeneratorASP
             {
                 var services = scope.ServiceProvider;
                 try { var context = services.GetRequiredService<GQ>();
-                    DbInitializer.Initialize(context); }
+                    DbInitializer.Initialize(context); }//инициализация бд
                 catch (Exception ex)
                 {
-                    /*var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DB.");*/
+                    Log.Write(ex);
                 }
             }
             host.Run();
         }
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) => WebHost.CreateDefaultBuilder(args)
             .UseStartup<Startup>()
-            .ConfigureLogging(logging =>
+            .ConfigureLogging(logging =>//настраиваем логи
         {
             logging.SetMinimumLevel(LogLevel.Information);
             logging.ClearProviders();
             logging.AddDebug()
-            .AddFilter("System", LogLevel.Warning)
+            .AddFilter("System", LogLevel.Warning)//фильтры для консольного логгера
                .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Warning);
 
     })

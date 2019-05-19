@@ -4,11 +4,11 @@
 .quest {
     padding: 5px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 18px;
 }
 .riddle {
     margin-left: 20px;
-    font-size: 13px;
+    font-size: 15px;
     font-style:italic;
 }
 .formR, .formE {
@@ -26,8 +26,8 @@
     margin-top: 10%;
 }
 body {
-    color: #8f8f8f;
-    font: 12px Tahoma, sans-serif;
+    color: #00012e;
+    font: 15px Tahoma, sans-serif;
     background-color: #f8f8f8;
     border-top: 5px solid #7e7e7e;
     margin: 0;
@@ -37,14 +37,14 @@ input[type="text"], #password, #myPassword, #Password, #passwordConfirm {
     background-color: #f3f3f3;
     border: 1px solid #e7e7e7;
     height: 30px;
-    color: #b2b2b2;
+    color: #00012e;
     padding: 0 10px;
     /*vertical-align: top;*/
 }
 a {
     text-decoration: none;
-    font-size: 14px;
-    color: #29c5e6;
+    font-size: 15px;
+    color: #00012e;
 }
 button {
     color: #fff;
@@ -79,7 +79,7 @@ select {
     background-color: #f3f3f3;
     border: 1px solid #e7e7e7;
     height: 30px;
-    color: #b2b2b2;
+    color: #00012e;
     padding: 0 10px;
     /*vertical-align: top;*/
 }
@@ -118,13 +118,13 @@ nav li {
     padding: 10px 30px;
     margin: 0;
 }
-.top-menu li.active {
+    .top-menu li.active {
         background: #29c5e6;
-        color: #fff;
+        color: #00012e;
     }
 
 .top-menu a {
-    color: #b2b2b2;
+    color: #00012e;
 }
 #heading {
    
@@ -137,7 +137,7 @@ h1 {
     color: #00012e;
     background-color: #aee1e2;
     margin: 0px 0px 0px -20px;
-    width:960px;
+    width: 960px;
     padding: 0 10px;
 }
 h3 {

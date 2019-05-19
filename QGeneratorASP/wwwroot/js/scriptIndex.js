@@ -1,8 +1,8 @@
 ﻿document.addEventListener("DOMContentLoaded", function (event) {
-    user.getCurrentUser();
+   // user.getCurrentUser();
 });
 
-var user = {
+/*var user = {
     getCurrentUser: function () {
         let request = new XMLHttpRequest();
         request.open("POST", "/api/Account/isAuthenticated", true);
@@ -10,9 +10,7 @@ var user = {
             let myObj = document.getElementById("user");
             myObj = request.responseText !== "" ?
                 JSON.parse(request.responseText) : {};
-
-            // document.getElementById("user").innerHTML = myObj;
         };
         request.send();
     }
-}
+}*/

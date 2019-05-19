@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="25610-astronomicheskij_obekt-kosmos-prostranstvo-zemlya-vselennaya-3840x2160.jpg" />
+    <None Remove="iR11ASLSQ.jpg" />
     <None Remove="logger.txt" />
   </ItemGroup>
 

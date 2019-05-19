@@ -19,7 +19,7 @@ namespace QGeneratorASP.Controllers
         public RiddleController(GQ context)
         {
             _context = context;
-            if (_context.Riddle.Count() == 0)
+            if (_context.Riddle.Count() == 0)//инициализация данных, если их еще нет
             {
                 
                 if (_context.Quest.Count() == 0)
@@ -62,33 +62,33 @@ namespace QGeneratorASP.Controllers
             }
         }
         [HttpGet]
-        public IEnumerable<Riddle> GetAll()
+        public IEnumerable<Riddle> GetAll()//возвращаем все загадки
         {
             return _context.Riddle.Include(a=>a.Answer).Include(l=>l.Level_of_complexity).Include(l=>l.Type_of_question)
                 .Include(u=>u.User)
                 .Include(q=>q.QuestRiddle).ThenInclude(q=>q.Quest);
         }
-        public IEnumerable<Level_of_complexity> GetLevels()
+        public IEnumerable<Level_of_complexity> GetLevels()//уровни для справочника
         {
             return _context.Level_of_complexity;
         }
-        public IEnumerable<Type_of_question> GetTypes()
+        public IEnumerable<Type_of_question> GetTypes()//уровни для справочника
         {
             return _context.Type_of_question;
         }
         [HttpGet("{id}")]
-        public List<Type_of_question> GetTypesForLevel([FromRoute] int id)
+        public List<Type_of_question> GetTypesForLevel([FromRoute] int id)// получаем типы, для которых существуют загадки с выбранным уровнем
         {
             var ts = new List<Type_of_question>();
             var rs = _context.Riddle.Where(i => (i.Id_Level_FK == id));
             foreach (var p in rs)
             {
-                if (!ts.Contains(p.Type_of_question)) ts.Add(_context.Type_of_question.Find(p.Id_Type_FK));
+                if (!ts.Contains(p.Type_of_question)) ts.Add(_context.Type_of_question.Find(p.Id_Type_FK));// для исключения дублирования добавляем только если еще нет
             }
             return ts;
         }
         [HttpGet]
-        public List<Answer> GetAnswersForLevelAndType( int id,  int level)
+        public List<Answer> GetAnswersForLevelAndType( int id,  int level)//получаем ответы для которых существуют загадки с выбраннным типом и уровнем
         {
             
                 List<Answer> answers = new List<Answer>();
@@ -101,19 +101,19 @@ namespace QGeneratorASP.Controllers
            
         }
         [HttpGet]
-        public async Task<IActionResult> GetRiddle(int id_level, int id_type, int id_answer)
+        public async Task<IActionResult> GetRiddle(int id_level, int id_type, int id_answer)//получение конкретной загадки по фильтру
         {
 
             var q= await _context.Riddle.Where(r => (r.Id_Level_FK == id_level) && (r.Id_Type_FK == id_type) && (r.Id_Answer_FK == id_answer)).FirstOrDefaultAsync();
             if (q == null) { return NotFound(); }
             return Ok(q); 
         }
-        public IEnumerable<Answer> GetAnswers()
+        public IEnumerable<Answer> GetAnswers()// для справочника ответов
         {
             return _context.Answer;
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRiddle([FromRoute] int id)
+        public async Task<IActionResult> GetRiddle([FromRoute] int id)//получение загадки по айди
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var q = await _context.Riddle.Include(a => a.Answer).Include(l => l.Level_of_complexity).Include(l => l.Type_of_question)
@@ -122,9 +122,9 @@ namespace QGeneratorASP.Controllers
             if (q == null) { return NotFound(); }
             return Ok(q);
         }
-        [Authorize]
+        [Authorize]//доступно только авторизированным
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Riddle q)
+        public async Task<IActionResult> Create([FromBody] Riddle q)//создание загадки
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             _context.Riddle.Add(q);
@@ -134,7 +134,7 @@ namespace QGeneratorASP.Controllers
         }
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Riddle q)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Riddle q)//редактирование загадки
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.Riddle.Find(id);
@@ -148,13 +148,13 @@ namespace QGeneratorASP.Controllers
             item.Status = item.User.AccessLevel;
             item.QuestRiddle = q.QuestRiddle;
             _context.Riddle.Update(item);
-            Log.WriteLog("Riddle:Update", "Загадка №" + item.Id_riddle + "обовлена");
+            Log.WriteLog("Riddle:Update", "Загадка №" + item.Id_riddle + "обновлена");
             await _context.SaveChangesAsync();
             return NoContent();
         }
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)//удаление
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.Riddle.Find(id);

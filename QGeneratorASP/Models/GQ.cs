@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class GQ : IdentityDbContext<User, IdentityRole<int>, int>
+    public class GQ : IdentityDbContext<User, IdentityRole<int>, int>// класс контекста базы данных с поддержкой Identity
     {
         public GQ(DbContextOptions<GQ> options)
             : base(options)
@@ -23,12 +23,13 @@ namespace QGeneratorASP.Models
         public virtual DbSet<User> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //настройка связей таблиц
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.HasKey(e => e.Id_answer);
               
-                entity.Property(e => e.Note).HasColumnType("nvarchar(1000)");
+                entity.Property(e => e.Note).HasColumnType("nvarchar(1000)");//нварчар для поддержки русского текста
 
                 entity.Property(e => e.Object)
                     .IsRequired()
@@ -95,7 +96,7 @@ namespace QGeneratorASP.Models
                 entity.HasOne(d => d.Quest)
                     .WithMany(p => p.QuestRiddle)
                     .HasForeignKey(d => d.Id_Quest_Fk)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Restrict)//для устранения циклов каскадного удаления 
                     .HasConstraintName("FK_Quest_Riddle_Quest");
 
                 entity.HasOne(d => d.Riddle)

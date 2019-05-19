@@ -37,7 +37,7 @@ namespace QGeneratorASP.Controllers
             }*/
         }
         [HttpGet]
-        public IEnumerable<Quest> GetAll()
+        public IEnumerable<Quest> GetAll()// метод возвращает все квесты
         {
             return _context.Quest.Include(l => l.Level_of_complexity)
                 .Include(u => u.User)
@@ -50,16 +50,16 @@ namespace QGeneratorASP.Controllers
                // .ThenInclude(u => u.User); 
         }
  
-        public IEnumerable<Level_of_complexity> GetLevels()
+        public IEnumerable<Level_of_complexity> GetLevels()//для справочника
         {
             return _context.Level_of_complexity;
         }
         
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetQuest([FromRoute] int id)
+        public async Task<IActionResult> GetQuest([FromRoute] int id)//возвращаем конкретный квест
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var q = await _context.Quest.Include(l => l.Level_of_complexity)
+            var q = await _context.Quest.Include(l => l.Level_of_complexity)//включаем подргузку связанных данных
                 .Include(u => u.User)
                 .Include(r => r.QuestRiddle).ThenInclude(r => r.Riddle).FirstOrDefaultAsync(m => m.Id_quest == id);
             if (q == null) { return NotFound(); }
@@ -67,7 +67,7 @@ namespace QGeneratorASP.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Quest q)
+        public async Task<IActionResult> Create([FromBody] Quest q)//создание 
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             _context.Quest.Add(q);
@@ -80,7 +80,7 @@ namespace QGeneratorASP.Controllers
         
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Quest q)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody]  Quest q)//изменение квеста
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.Quest.Find(id);
@@ -89,9 +89,9 @@ namespace QGeneratorASP.Controllers
             item.Number_of_questions = q.Number_of_questions;
             item.Date = q.Date;
             item.Thematics = q.Thematics;
-            item.Level_of_complexity = _context.Level_of_complexity.Find(q.Id_level_Fk);
-            item.User = _context.User.Find(q.Id_autor_Fk);//
-            item.Status = item.User.AccessLevel;
+            item.Level_of_complexity = _context.Level_of_complexity.Find(q.Id_level_Fk);//подгружаем связанные по ключу, тк приходят null 
+            item.User = _context.User.Find(q.Id_autor_Fk);//аналогично
+            item.Status = item.User.AccessLevel;//ставим статус по статусу автора квеста
             item.QuestRiddle = q.QuestRiddle;
             _context.Quest.Update(item);
             _logger.LogInformation("Update quest");
@@ -101,22 +101,22 @@ namespace QGeneratorASP.Controllers
         }
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)//удаление
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var item = _context.Quest.Find(id);
             if (item == null) { return NotFound(); }
             var qs = _context.QuestRiddle;
-            foreach(var q in qs )
+            foreach(var q in qs )//удаление связанной сущности для устаранения циклов в каскадном удалении
             {
                 if (q.Id_Quest_Fk == id) _context.QuestRiddle.Remove(_context.QuestRiddle.Find(q.Id_Quest_Fk, q.Id_Riddle_Fk));
             }
-            try { 
+            try { //пробуем удалить
             _context.Quest.Remove(item);
             _logger.LogInformation("Delete quest");
              Log.WriteLog("Quest:Delete", "Квест №" + item.Id_quest + "удален");
             }
-            catch (Exception err)
+            catch (Exception err)// если остались какие-то связанные данные вводим текст исключения в консоль дебагера
             {
                 _logger.LogInformation(err.Message);
             }

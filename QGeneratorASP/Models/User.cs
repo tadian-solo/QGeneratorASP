@@ -16,7 +16,7 @@ namespace QGeneratorASP.Models
             UserQuest = new HashSet<UserQuest>();
         }
        
-        public bool AccessLevel { get; set; }
+        public bool AccessLevel { get; set; }//поле уровень доступа
 
         public virtual ICollection<Quest> Quest { get; set; }
         public virtual ICollection<UserQuest> UserQuest { get; set; }

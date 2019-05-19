@@ -36,8 +36,8 @@ namespace QGeneratorASP
                  .AddEntityFrameworkStores<GQ>();*/
 
             services.AddIdentity<User, IdentityRole<int>>()
-       .AddEntityFrameworkStores<GQ>()
-       .AddDefaultTokenProviders();
+           .AddEntityFrameworkStores<GQ>()
+           .AddDefaultTokenProviders();
 
             services.AddDbContext<GQ>(options => options.UseSqlServer(connection));
 

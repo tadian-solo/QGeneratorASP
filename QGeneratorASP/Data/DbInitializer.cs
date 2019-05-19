@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Data
 {
-    public class DbInitializer
+    public class DbInitializer //класс для первичной инициализации  базы данных
     { 
         
         public static void Initialize(GQ context)
         {
             context.Database.EnsureCreated();
 
-            if (context.Quest.Any()&&context.Riddle.Any())
+            if (context.Quest.Any()&&context.Riddle.Any())//если нет ни загадок ни квестов
             {
-                return;
+                return;//то просто возвращаемся без заполнения
             }
-            var lvls = new Level_of_complexity[]
+            var lvls = new Level_of_complexity[]//создаем уровни
             {
                 new Level_of_complexity{Name_level="легче легкого"},
                 new Level_of_complexity{Name_level="легко"},
@@ -28,9 +28,9 @@ namespace QGeneratorASP.Data
             };
             foreach(var ls in lvls)
             {
-                context.Level_of_complexity.Add(ls);
+                context.Level_of_complexity.Add(ls);//добавляем
             }
-            var answs = new Answer[]
+            var answs = new Answer[]//создаем ответы
             {
                 new Answer{Object= "стол"},
                 new Answer{Object= "окно"},
@@ -43,7 +43,7 @@ namespace QGeneratorASP.Data
             {
                 context.Answer.Add(ls);
             }
-            var tps = new Type_of_question[]
+            var tps = new Type_of_question[]//создаем типы
             {
                 new Type_of_question{ Name="загадка"},
                 new Type_of_question{ Name="анаграмма"},
@@ -56,7 +56,7 @@ namespace QGeneratorASP.Data
             context.User.Add(new User { UserName = "admin", PasswordHash = "123", AccessLevel = true });
             context.SaveChanges();
             
-            var quests = new Quest[]
+            var quests = new Quest[]//создаем квесты
             {
                 new Quest
                 {
@@ -99,7 +99,7 @@ namespace QGeneratorASP.Data
             context.SaveChanges();
             
 
-             var riddle = new Riddle[]
+             var riddle = new Riddle[]// создаем загадки
              {
                 new Riddle
                 {
@@ -138,7 +138,7 @@ namespace QGeneratorASP.Data
                  context.Riddle.Add(p);
              }
              context.SaveChanges();
-
+            //добавляем загадки в квесты
             context.QuestRiddle.Add(new QuestRiddle { Riddle = context.Riddle.Find(riddle[1].Id_riddle) , Quest = context.Quest.Find(quests[0].Id_quest) });
             context.QuestRiddle.Add(new QuestRiddle { Riddle = context.Riddle.Find(riddle[2].Id_riddle), Quest = context.Quest.Find(quests[1].Id_quest) });
             context.QuestRiddle.Add(new QuestRiddle { Riddle = context.Riddle.Find(riddle[1].Id_riddle), Quest = context.Quest.Find(quests[1].Id_quest) });

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class UserQuest
+    public class UserQuest//промежуточная таблица для Избранного
     {
         public int Id_Quest_Fk { get; set; }
         public int Id_User_Fk { get; set; }

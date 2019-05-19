@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class Riddle
+    public class Riddle// класс загадки
     {
         public Riddle()
         {
@@ -19,11 +19,11 @@ namespace QGeneratorASP.Models
 
         [Column(TypeName = "text")]
         [Required]
-        public string Text { get; set; }
+        public string Text { get; set; }//текст загадки
 
         [Column(TypeName = "text")]
         [Required]
-        public string Description { get; set; }
+        public string Description { get; set; }//описание загадки
 
         public bool Status { get; set; }
 

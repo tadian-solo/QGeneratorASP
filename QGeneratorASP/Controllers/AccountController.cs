@@ -28,7 +28,7 @@ namespace QGeneratorASP.Controllers
         [Route("api/Account/Register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)// если модель валидна, пробуем добавить
             {
                 User user = new User { UserName = model.Login, AccessLevel=model.AccessLevel};
                 // Добавление нового пользователя
@@ -42,10 +42,10 @@ namespace QGeneratorASP.Controllers
                     {
                         message = "Добавлен новый пользователь: " + user.UserName
                     };
-                    Log.WriteLog("Account:Register", "Добавлен новый пользователь " + user.UserName);
+                    Log.WriteLog("Account:Register", "Добавлен новый пользователь " + user.UserName);//запись в лог
                     return Ok(msg);
                 }
-                else
+                else 
                 {
                     foreach (var error in result.Errors)
                     {
@@ -56,11 +56,11 @@ namespace QGeneratorASP.Controllers
                         message = "Пользователь не добавлен.",
                         error = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
                     };
-                    Log.WriteLog("Account:Register", "Попытка добавить пользователя не удалась");
+                    Log.WriteLog("Account:Register", "Попытка добавить пользователя не удалась");//запись в лог
                     return Ok(errorMsg);
                 }
             }
-            else
+            else// что-то пользователь не ввел, выводим ошибки
             {
                 var errorMsg = new
                 {
@@ -74,10 +74,10 @@ namespace QGeneratorASP.Controllers
 
         [HttpPost]
         [Route("api/Account/Login")]
-        //[ValidateAntiForgeryToken]
+    
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)// если модель валидна
             {
                 var result =
                     await _signInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, false);
@@ -87,7 +87,7 @@ namespace QGeneratorASP.Controllers
                     {
                         message = "Выполнен вход пользователем: " + model.Login
                     };
-                    Log.WriteLog("Account:Login", "Выполнен вход пользователем: " + model.Login);
+                    Log.WriteLog("Account:Login", "Выполнен вход пользователем: " + model.Login);// логгирование
                     return Ok(msg);
                 }
                 else
@@ -114,7 +114,7 @@ namespace QGeneratorASP.Controllers
 
         [HttpPost]
         [Route("api/account/logoff")]
-        //[ValidateAntiForgeryToken]
+     
         public async Task<IActionResult> LogOff()
         {
             // Удаление куки
@@ -127,10 +127,10 @@ namespace QGeneratorASP.Controllers
         }
         [HttpPost]
         [Route("api/Account/GetUser")]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetUser()// метод для получения пользователя в клиентской части
         {
             User usr = await GetCurrentUserAsync();
-            if (usr == null) { return Ok(-1); }
+            if (usr == null) { return Ok(-1); }// выдает -1, если не авторизирован
             var user = await _context.User
                 .Include(u => u.UserQuest)
                      .ThenInclude(u => u.Quest).ThenInclude(r=>r.Level_of_complexity)
@@ -150,51 +150,19 @@ namespace QGeneratorASP.Controllers
         }
         [HttpPost]
         [Route("api/Account/isAuthenticated")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogisAuthenticatedOff()
+      
+        public async Task<IActionResult> LogisAuthenticatedOff()// проверка авторизации
         {
             User usr = await GetCurrentUserAsync();
-            /* var message = usr == null ? "Вы Гость. Пожалуйста, выполните вход." : "Вы вошли как: " + usr.UserName;
-             var msg = new
-                 {
-                     message
-                 };
-             return Ok(msg);*/
            
-
             if (usr == null) { return Ok(-1); }
             else
             {
                 return Ok(usr);
             }
            
-           
         }
-        //[HttpPost]
-        //[Route("api/Account/isAuthenticated")]
-        ////[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> LogisAuthenticatedOff()
-        //{
-        //    User usr = await GetCurrentUserAsync();
-        //    /* var message = usr == null ? "Вы Гость. Пожалуйста, выполните вход." : "Вы вошли как: " + usr.UserName;
-        //     var msg = new
-        //         {
-        //             message
-        //         };
-        //     return Ok(msg);*/
-
-
-        //    if (usr == null) { return Ok(-1); }
-        //    else
-        //    {
-
-
-        //        return Ok(usr.Id);
-        //    }
-
-
-        //}
-
+        
         private Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);
 

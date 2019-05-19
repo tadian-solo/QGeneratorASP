@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QGeneratorASP.Models
 {
-    public class QuestRiddle
+    public class QuestRiddle//смежная таблица для доавления загадок в квесты
     {
         public int Id_Quest_Fk { get; set; }
         public int Id_Riddle_Fk { get; set; }
