@@ -21,20 +21,6 @@ namespace QGeneratorASP.Controllers
         {
             _context = context;
             _logger = logger;
-
-            /*if (_context.Quest.Count() == 0)
-            {
-
-                _context.Quest.Add(new Quest
-                {
-                    Status = true,
-                    Date = DateTime.Now,
-                    Thematics = "no",
-                    User = new User { UserName = "moderator", PasswordHash = "123123", AccessLevel = true },
-                    Level_of_complexity = new Level_of_complexity { Name_level = "hard" }
-                });
-                _context.SaveChanges();
-            }*/
         }
         [HttpGet]
         public IEnumerable<Quest> GetAll()// метод возвращает все квесты

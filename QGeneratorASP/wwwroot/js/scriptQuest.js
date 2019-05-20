@@ -15,9 +15,9 @@ var user =
                 if (user != -1) { //если пользователь не авторизирован вернется -1, в противном случае сохраняем данные пользователя в атрибут data
                     autor.dataset.user = user.id;
                     autor.dataset.access = user.accessLevel;
-                    let elm = document.querySelector("#qDiv");
+                   let elm = document.querySelector("#qDivB");
                     elm.style.display = "block";
-                    elm = document.querySelector("#rInQDiv");
+                    elm = document.querySelector("#rInQDivB");
                     elm.style.display = "block";
                 }
             }

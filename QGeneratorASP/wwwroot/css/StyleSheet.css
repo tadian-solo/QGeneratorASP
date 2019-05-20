@@ -47,19 +47,19 @@ a {
     color: #00012e;
 }
 button {
-    color: #fff;
+    color: #00012e;
     background-color: #29c5e6;
-   border: none;
+    border: none;
     height: 32px;
     margin: 3px;
     font-family: 'Oswald', sans-serif;
-  border-radius:19px;
-  padding-top:3px;
-  padding-bottom:3px;
-
+    border-radius: 19px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
+
 .btn-icon {
-    color: #fff;
+    color: #00012e;
     background-color: #29c5e6;
     border: none;
     height: 32px;
@@ -72,8 +72,7 @@ button {
 }
 .del-button {
     background-color: #f8f8f8;
-    color: #29c5e6;
-
+    color: #00012e;
 }
 select {
     background-color: #f3f3f3;
@@ -83,7 +82,20 @@ select {
     padding: 0 10px;
     /*vertical-align: top;*/
 }
+#rInQDivB, #qDivB{
+    color: white;
+    background-color: #29c5e6;
+    border: none;
+    height: 32px;
+    margin: 0px;
 
+    margin-bottom:15px;
+    font-family: 'Oswald', sans-serif;
+    
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left:20px;
+}
 p {
     margin: 10px 0;
 }
