@@ -19,7 +19,7 @@ var user = {
                 if (user != -1) {
                     autor.dataset.user = user.id;
                     autor.dataset.access = user.accessLevel;
-                    let elm = document.querySelector("#rDiv");
+                    let elm = document.querySelector("#rDivB");
                     elm.style.display = "block";
                 }
             }
@@ -127,7 +127,7 @@ var riddles = {
                     if (rs) {
                         var i;
                         for (i in rs) {
-                            rsHTML += '<div class="blogText"><span>' + 'Загадка №' + rs[i].id_riddle + ' : ' + 'Статус: ' + rs[i].status + ' Теxt: ' + rs[i].text + ' Desc: ' + rs[i].description + ' Уровень сложности: ' + rs[i].level_of_complexity.name_level + ' Type: ' + rs[i].type_of_question.name + ' Answer: ' + rs[i].answer.object + ' Автор: ' + rs[i].user.userName + ' </span></br>';
+                            rsHTML += '<div class="blogText"><span>' + 'Загадка №' + rs[i].id_riddle + ' : ' + 'Статус: ' + rs[i].status + ' Текст: ' + rs[i].text + ' Описание: ' + rs[i].description + ' Уровень сложности: ' + rs[i].level_of_complexity.name_level + ' Тип: ' + rs[i].type_of_question.name + ' Ответ: ' + rs[i].answer.object + ' Автор: ' + rs[i].user.userName + ' </span></br>';
                             if (user_id != -1) rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="riddles.editRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="padding: 7px 6px;"></span>Изменить</button>';
                             if (user_id != -1) rsHTML += '<button type="button" class= "btn btn-primary btn-icon" onclick="riddles.deleteRiddle(' + rs[i].id_riddle + ')"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="padding: 7px 6px;"></span>Удалить</button></div>';
                         }

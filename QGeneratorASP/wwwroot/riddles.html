@@ -27,11 +27,15 @@
             <h1>Загадки</h1>
 
         </div>
-        <div id="rDiv" style="display:none">
+        <div id="rDivB" style="display:none;">
+            <a href="javascript:;" onmousedown="slidedown('rDiv');">Создание загадки</a>
+            <a href="javascript:;" onmousedown="slideup('rDiv');">&#10006</a>
+        </div>
+        <div id="rDiv" style="display:none; overflow:hidden; height:140px;">
             <h3>Создание новой загадки</h3>
             <form>
                 <!-- <label for="createStatus"> Status:</label>
-    <input id="createStatus" type="text" />-->
+            <input id="createStatus" type="text" />-->
 
                 <label for="createText">Текст загадки:</label>
                 <input id="createText" type="text" />
@@ -54,7 +58,7 @@
 
 
                 <!--<label for="createUser">Автор:</label>
-    <input id="createUser" type="text" />-->
+            <input id="createUser" type="text" />-->
                 <!-- <label for="createRiddle">Riddle:</label>-->
                 <!--  <input id="createRiddle" type="text" />-->
 
@@ -98,6 +102,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <!-- Подключаем Bootstrap JS -->
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/motionpack.js"></script>
         <script src="js/scripts.js"></script>
     </div>
 </body>

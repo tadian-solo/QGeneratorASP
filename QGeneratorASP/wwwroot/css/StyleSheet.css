@@ -65,6 +65,7 @@ button {
     height: 32px;
     margin: 6px;
     font-family: 'Oswald', sans-serif;
+    font-size:12px;
     border-radius: 19px;
     padding-top: 0px;
     padding-bottom: 3px;
@@ -82,7 +83,7 @@ select {
     padding: 0 10px;
     /*vertical-align: top;*/
 }
-#rInQDivB, #qDivB{
+#rInQDivB, #qDivB, #rDivB{
     color: white;
     background-color: #29c5e6;
     border: none;
